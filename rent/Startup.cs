@@ -33,6 +33,9 @@ namespace rent
             services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
             services.AddDbContext<ApplicationContext>();
             services.AddRepository();
+            services.AddAccountService();
+            services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
