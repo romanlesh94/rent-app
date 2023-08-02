@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entities.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Services;
+using System;
 using System.Threading.Tasks;
 
 namespace rent.Controllers
@@ -18,17 +20,41 @@ namespace rent.Controllers
         [HttpPost("/log-in")]
         public async Task<IActionResult> LogInAsync(string login, string password)
         {
-            var result = await _service.LogInAsync(login, password);
+            try
+            {
+                var result = await _service.LogInAsync(login, password);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (CredentialsExc e)
+            {
+                return Unauthorized(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+           
         }
 
         [HttpPost("/sign-up")]
         public async Task<IActionResult> SignUpAsync(string login, string password, string email, string country)
         {
-            await _service.SignUpAsync(login, password, email, country);
+            try
+            {
+                await _service.SignUpAsync(login, password, email, country);
 
-            return Ok("You have signed up!");
+                return Ok("You have signed up!");
+            }
+
+            catch (CredentialsExc e)
+            {
+                return Unauthorized(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
 
             /*var result = await _service.LogInAsync(login, password);
 

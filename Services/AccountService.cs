@@ -1,11 +1,7 @@
 ﻿using Entities;
+using Entities.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -17,26 +13,34 @@ namespace Services
         {
             _genericRepository = genericRepository;
         }
-
+            
         public async Task<Person> LogInAsync(string login, string password)
         {
-            var person = await (await _genericRepository.QueryAsync()).FirstOrDefaultAsync(x => x.Login == login && x.Password == password);
+            var person = await (await _genericRepository.QueryAsync()).FirstOrDefaultAsync(x => x.Login == login);
 
-            if (person != null)
+            if (person == null | !BCrypt.Net.BCrypt.Verify(password, person.Password))
             {
-                Console.WriteLine("Success!");
-                return person;
+                throw new CredentialsExc("Invalid username or password");
             }
 
-            return null;
-        }
+            Console.WriteLine("Success!");
+            return person;
+        }   
 
         public async Task<Person> SignUpAsync(string login, string password, string email, string country)
         {
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
+
+            var existingPerson = await (await _genericRepository.QueryAsync()).FirstOrDefaultAsync(x => x.Login == login);
+
+            if (existingPerson != null) {
+                throw new CredentialsExc("The username is already taken!");
+            }
+
             Person person = new Person
             {
                 Login = login,
-                Password = password,
+                Password = passwordHash,
                 Email = email,
                 Country = country,
             };
