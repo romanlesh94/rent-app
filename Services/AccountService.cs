@@ -7,16 +7,17 @@ namespace Services
 {
     public class AccountService : IAccountService
     {
-        private readonly IGenericRepository<Person> _genericRepository;
+        private readonly IGenericRepository<Person> _personRepository;
 
-        public AccountService(IGenericRepository<Person> genericRepository)
+        public AccountService(IGenericRepository<Person> personRepository)
         {
-            _genericRepository = genericRepository;
+            _personRepository = personRepository;
         }
             
         public async Task<Person> LogInAsync(string login, string password)
         {
-            var person = await (await _genericRepository.QueryAsync()).FirstOrDefaultAsync(x => x.Login == login);
+            var person = await (await _personRepository.QueryAsync()).FirstOrDefaultAsync(x => 
+            x.Login.Trim().ToUpper() == login.Trim().ToUpper());
 
             if (person == null | !BCrypt.Net.BCrypt.Verify(password, person.Password))
             {
@@ -29,13 +30,14 @@ namespace Services
 
         public async Task<Person> SignUpAsync(string login, string password, string email, string country)
         {
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
-
-            var existingPerson = await (await _genericRepository.QueryAsync()).FirstOrDefaultAsync(x => x.Login == login);
-
-            if (existingPerson != null) {
+            var existingPerson = await (await _personRepository.QueryAsync()).AnyAsync(x => 
+            x.Login.Trim().ToUpper() == login.Trim().ToUpper());
+                
+            if (existingPerson) {
                 throw new CredentialsExc("The username is already taken!");
             }
+
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
 
             Person person = new Person
             {
@@ -45,7 +47,7 @@ namespace Services
                 Country = country,
             };
 
-            await _genericRepository.CreateAsync(person);
+            await _personRepository.CreateAsync(person);
 
             return person;
         }
