@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Entities.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
