@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Repository;
+using rent.Repository;
 
 namespace rent.Extensions
 {

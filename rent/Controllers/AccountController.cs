@@ -1,6 +1,6 @@
-﻿using Entities.Exceptions;
-using Microsoft.AspNetCore.Mvc;
-using Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using rent.Entities.Exceptions;
+using rent.Services;
 using System;
 using System.Threading.Tasks;
 
