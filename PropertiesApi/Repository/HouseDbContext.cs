@@ -1,22 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HouseApi.Models;
+using HouseApi.Models.Options;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using rent.Entities;
-using rent.Entities.Settings;
 
-namespace rent.Repository
+namespace HouseApi.Repository
 {
-    public class ApplicationContext : DbContext
+    public class HouseDbContext : DbContext
     {
         private readonly ConnectionStrings _connectionStrings;
-
-        public ApplicationContext(IOptions<ConnectionStrings> connectionStrings)
+        public HouseDbContext(IOptions<ConnectionStrings> connectionStrings) 
         {
             _connectionStrings = connectionStrings.Value;
         }
 
-        public DbSet<Person> People { get; set; }
+        public DbSet<House> Houses { get; set; }
 
-        public ApplicationContext() : base()
+        public HouseDbContext() : base()
         {
 
         }
