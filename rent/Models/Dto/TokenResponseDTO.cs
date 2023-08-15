@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace rent.Entities.DTO
 {
-    public class ResponseDTO
+    public class TokenResponseDTO
     {
         public string Token { get; set; }
         public string Login { get; set; }

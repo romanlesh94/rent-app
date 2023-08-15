@@ -28,7 +28,7 @@ namespace rent.Services
 
         public const int LIFETIME = 100;
 
-        public async Task<ResponseDTO> LogInAsync(string login, string password)
+        public async Task<TokenResponseDTO> LogInAsync(string login, string password)
         {
             var identity = await GetIdentityAsync(login, password);
 
@@ -50,7 +50,7 @@ namespace rent.Services
                     signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
             
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            var response = new ResponseDTO
+            var response = new TokenResponseDTO
             {
                 Token = encodedJwt,
                 Login = identity.Name,
@@ -61,7 +61,7 @@ namespace rent.Services
             return response;
         }   
 
-        public async Task<Person> SignUpAsync(string login, string password, string email, string country)
+        public async Task<TokenResponseDTO> SignUpAsync(string login, string password, string email, string country)
         {
             var existingPerson = await (await _personRepository.QueryAsync()).AnyAsync(x => 
             x.Login.Trim().ToUpper() == login.Trim().ToUpper());
@@ -82,9 +82,9 @@ namespace rent.Services
 
             await _personRepository.CreateAsync(person);
 
-            await this.LogInAsync(login, password);
+            var response = await this.LogInAsync(login, password);
 
-            return person;
+            return response;
         }
 
         public async Task<ClaimsIdentity> GetIdentityAsync(string login, string password)
@@ -92,7 +92,7 @@ namespace rent.Services
             var person = await (await _personRepository.QueryAsync()).FirstOrDefaultAsync(x =>
             x.Login.Trim().ToUpper() == login.Trim().ToUpper());
 
-            if (person != null)
+            if (person != null && BCrypt.Net.BCrypt.Verify(password, person.Password))
             {
                 var claims = new List<Claim>
                 {

@@ -42,9 +42,9 @@ namespace rent.Controllers
         {
             try
             {
-                await _service.SignUpAsync(login, password, email, country);
+                var result = await _service.SignUpAsync(login, password, email, country);
 
-                return Ok("You have signed up!");
+                return Ok(result);
             }
 
             catch (CredentialsExc e)
