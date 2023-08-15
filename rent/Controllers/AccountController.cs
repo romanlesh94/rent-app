@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using rent.Entities.Exceptions;
+using rent.Models.Dto;
 using rent.Services;
 using System;
 using System.Threading.Tasks;
@@ -18,11 +19,11 @@ namespace rent.Controllers
         }
 
         [HttpPost("/log-in")]
-        public async Task<IActionResult> LogInAsync(string login, string password)
+        public async Task<IActionResult> LogInAsync(LoginDto loginDto)
         {
             try
             {
-                var result = await _service.LogInAsync(login, password);
+                var result = await _service.LogInAsync(loginDto);
 
                 return Ok(result);
             }

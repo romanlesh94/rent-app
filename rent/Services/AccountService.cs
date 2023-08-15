@@ -2,9 +2,10 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using rent.Entities;
-using rent.Entities.DTO;
+using rent.Entities.Dto;
 using rent.Entities.Exceptions;
 using rent.Entities.Settings;
+using rent.Models.Dto;
 using rent.Repository;
 using System;
 using System.Collections.Generic;
@@ -28,9 +29,9 @@ namespace rent.Services
 
         public const int LIFETIME = 100;
 
-        public async Task<TokenResponseDTO> LogInAsync(string login, string password)
+        public async Task<TokenResponseDto> LogInAsync(LoginDto loginDto)
         {
-            var identity = await GetIdentityAsync(login, password);
+            var identity = await GetIdentityAsync(loginDto.Login, loginDto.Password);
 
             if (identity == null)
             {
@@ -50,7 +51,7 @@ namespace rent.Services
                     signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
             
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            var response = new TokenResponseDTO
+            var response = new TokenResponseDto
             {
                 Token = encodedJwt,
                 Login = identity.Name,
@@ -61,7 +62,7 @@ namespace rent.Services
             return response;
         }   
 
-        public async Task<TokenResponseDTO> SignUpAsync(string login, string password, string email, string country)
+        public async Task<TokenResponseDto> SignUpAsync(string login, string password, string email, string country)
         {
             var existingPerson = await (await _personRepository.QueryAsync()).AnyAsync(x => 
             x.Login.Trim().ToUpper() == login.Trim().ToUpper());
@@ -82,7 +83,13 @@ namespace rent.Services
 
             await _personRepository.CreateAsync(person);
 
-            var response = await this.LogInAsync(login, password);
+            LoginDto loginDto = new LoginDto
+            {
+                Login = login,
+                Password = password,
+            };
+
+            var response = await this.LogInAsync(loginDto);
 
             return response;
         }

@@ -65,6 +65,12 @@ namespace rent
                 .AllowAnyMethod()
             );
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            );
+
             app.UseAuthentication();
             app.UseAuthorization();
 

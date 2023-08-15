@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace rent.Entities.DTO
+namespace rent.Entities.Dto
 {
-    public class TokenResponseDTO
+    public class TokenResponseDto
     {
         public string Token { get; set; }
         public string Login { get; set; }
