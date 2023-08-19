@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rent.Repository;
 
@@ -10,9 +11,11 @@ using rent.Repository;
 namespace rent.Repository.Migrations
 {
     [DbContext(typeof(PersonDbContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230817114751_CreatedPersonValidation")]
+    partial class CreatedPersonValidation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

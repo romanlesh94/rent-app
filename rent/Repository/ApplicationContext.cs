@@ -5,18 +5,18 @@ using rent.Entities.Settings;
 
 namespace rent.Repository
 {
-    public class ApplicationContext : DbContext
+    public class PersonDbContext : DbContext
     {
         private readonly ConnectionStrings _connectionStrings;
 
-        public ApplicationContext(IOptions<ConnectionStrings> connectionStrings)
+        public PersonDbContext(IOptions<ConnectionStrings> connectionStrings)
         {
             _connectionStrings = connectionStrings.Value;
         }
 
         public DbSet<Person> People { get; set; }
 
-        public ApplicationContext() : base()
+        public PersonDbContext() : base()
         {
 
         }

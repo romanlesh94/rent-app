@@ -1,11 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Validations;
 using rent.Entities;
 using rent.Entities.Dto;
 using rent.Entities.Exceptions;
 using rent.Entities.Settings;
+using rent.Models;
 using rent.Models.Dto;
+using rent.Models.Exceptions;
 using rent.Repository;
 using System;
 using System.Collections.Generic;
@@ -18,104 +22,93 @@ namespace rent.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly IGenericRepository<Person> _personRepository;
+        private readonly IPersonRepository _personRepository;
         private readonly TokenParameters _tokenParameters;
+        private readonly IConfiguration _config;
 
-        public AccountService(IGenericRepository<Person> personRepository, IOptions<TokenParameters> tokenParameters)
+
+        public AccountService(IPersonRepository personRepository, IOptions<TokenParameters> tokenParameters, IConfiguration config)
         {
             _personRepository = personRepository;
             _tokenParameters = tokenParameters.Value;
+            _config = config;
+
         }
 
-        public const int LIFETIME = 100;
-
-        public async Task<TokenResponseDto> LogInAsync(LoginDto loginDto)
+        public async Task<AuthToken> LogInAsync(LoginDto loginDto)
         {
-            var identity = await GetIdentityAsync(loginDto.Login, loginDto.Password);
+            var person = await _personRepository.GetPersonAsync(loginDto.Login);
 
-            if (identity == null)
+            if (person == null)
             {
-                throw new CredentialsExc("Invalid username or password");
+                throw new NotFoundException("User not found!");
             }
 
-            var now = DateTime.UtcNow;
-
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_tokenParameters.IssuerSigningKey));
-
-            var jwt = new JwtSecurityToken(
-                    issuer: _tokenParameters.ValidIssuer,
-                    audience: _tokenParameters.ValidAudience,
-                    claims: identity.Claims,
-                    notBefore: now, 
-                    expires: now.Add(TimeSpan.FromMinutes(LIFETIME)),
-                    signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
-            
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            var response = new TokenResponseDto
+            if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, person.Password))
             {
-                Token = encodedJwt,
-                Login = identity.Name,
-                Country = identity.FindFirst(x => x.Type == ClaimTypes.Locality).Value,
-                Email = identity.FindFirst(x => x.Type == ClaimTypes.Email).Value,
+                throw new InternalException("Wrong password!");
+            }
+
+            var token = GenerateToken(person.Login, person.Id);
+
+            AuthToken authToken = new AuthToken
+            {
+                Token = token
             };
 
-            return response;
+            return authToken;
         }   
 
-        public async Task<TokenResponseDto> SignUpAsync(string login, string password, string email, string country)
+        public async Task<AuthToken> SignUpAsync(SignUpDto signUpDto)
         {
-            var existingPerson = await (await _personRepository.QueryAsync()).AnyAsync(x => 
-            x.Login.Trim().ToUpper() == login.Trim().ToUpper());
-                
-            if (existingPerson) {
-                throw new CredentialsExc("The username is already taken!");
+            var dbPerson = await _personRepository.GetPersonAsync(signUpDto.Login);
+
+            if(dbPerson != null)
+            {
+                throw new InternalException("This username is already taken!");
             }
 
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(signUpDto.Password.Trim());
 
             Person person = new Person
             {
-                Login = login,
+                Login = signUpDto.Login.Trim(),
                 Password = passwordHash,
-                Email = email,
-                Country = country,
+                Email = signUpDto.Email.Trim(),
+                Country = signUpDto.Country.Trim(),
             };
 
-            await _personRepository.CreateAsync(person);
+            await _personRepository.AddPersonAsync(person);
 
-            LoginDto loginDto = new LoginDto
+            var token = GenerateToken(person.Login, person.Id);
+
+            AuthToken authToken = new AuthToken
             {
-                Login = login,
-                Password = password,
+                Token = token,
             };
 
-            var response = await this.LogInAsync(loginDto);
-
-            return response;
+            return authToken;
         }
 
-        public async Task<ClaimsIdentity> GetIdentityAsync(string login, string password)
+        public string GenerateToken(string login, long id)
         {
-            var person = await (await _personRepository.QueryAsync()).FirstOrDefaultAsync(x =>
-            x.Login.Trim().ToUpper() == login.Trim().ToUpper());
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecretData:secretKey"]));
+            var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
-            if (person != null && BCrypt.Net.BCrypt.Verify(password, person.Password))
+            var claims = new Claim[]
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
-                    new Claim(ClaimTypes.Email, person.Email),
-                    new Claim(ClaimTypes.Locality, person.Country)
-                };
-                
-                ClaimsIdentity claimsIdentity =
-                    new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, 
-                    ClaimsIdentity.DefaultRoleClaimType);
-                
-                return claimsIdentity;
-            }
+                new("login", login),
+                new("id", id.ToString()),
+            };
 
-            return null;
+            var expires = DateTime.Now + new TimeSpan(0, 0, 0, int.Parse(_config["JwtExpiresSec"]));
+
+            var jwt = new JwtSecurityToken(claims: claims, signingCredentials: signingCredentials, expires: expires);
+
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            return encodedJwt;
         }
+        
     }
 }

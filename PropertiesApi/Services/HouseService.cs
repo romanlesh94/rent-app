@@ -1,4 +1,5 @@
 ﻿using HouseApi.Models;
+using HouseApi.Models.Dto;
 using HouseApi.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,14 +15,14 @@ namespace HouseApi.Services
             _houseRepository = houseRepository;
         }
 
-        public async Task<House> CreateHouseAsync(string name, string description, string rules, string address)
+        public async Task<House> CreateHouseAsync(CreateHouseDto createHouseDto)
         {
             House newHouse = new House
             {
-                Name = name,
-                Description = description,
-                Rules = rules,
-                Address = address
+                Name = createHouseDto.Name,
+                Description = createHouseDto.Description,
+                Rules = createHouseDto.Rules,
+                Address = createHouseDto.Address
             };
 
             await _houseRepository.AddHouseAsync(newHouse);

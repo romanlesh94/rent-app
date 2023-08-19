@@ -7,7 +7,7 @@ namespace rent.Extensions
     {
         public static void AddDbContext(this IServiceCollection services)
         {
-            services.AddDbContext<ApplicationContext>();
+            services.AddDbContext<PersonDbContext>();
         }
     }
 }

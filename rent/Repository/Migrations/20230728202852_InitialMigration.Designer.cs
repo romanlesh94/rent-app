@@ -10,7 +10,7 @@ using rent.Repository;
 
 namespace rent.Repository.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext(typeof(PersonDbContext))]
     [Migration("20230728202852_InitialMigration")]
     partial class InitialMigration
     {

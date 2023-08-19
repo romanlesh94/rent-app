@@ -1,4 +1,5 @@
-﻿using HouseApi.Services;
+﻿using HouseApi.Models.Dto;
+using HouseApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -23,9 +24,9 @@ namespace HouseApi.Controllers
         }
 
         [HttpPost("/create-house")]
-        public async Task<IActionResult> CreateHouseAsync(string name, string description, string rules, string address)
+        public async Task<IActionResult> CreateHouseAsync(CreateHouseDto createHouseDto)
         {
-            var result = await _service.CreateHouseAsync(name, description, rules, address);
+            var result = await _service.CreateHouseAsync(createHouseDto);
             return Ok(result);
         }
 

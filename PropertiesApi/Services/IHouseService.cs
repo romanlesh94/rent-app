@@ -1,4 +1,5 @@
 ﻿using HouseApi.Models;
+using HouseApi.Models.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +7,7 @@ namespace HouseApi.Services
 {
     public interface IHouseService
     {
-        Task<House> CreateHouseAsync(string name, string description, string rules, string address);
+        Task<House> CreateHouseAsync(CreateHouseDto createHouseDto);
         Task<List<House>> GetAllHousesAsync();
     }
 }

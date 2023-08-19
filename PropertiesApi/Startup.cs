@@ -53,6 +53,12 @@ namespace HouseApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
             });
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            );
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

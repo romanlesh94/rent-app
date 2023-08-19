@@ -27,7 +27,7 @@ namespace rent.Controllers
 
                 return Ok(result);
             }
-            catch (CredentialsExc e)
+            catch (InternalException e)
             {
                 return Unauthorized(e.Message);
             }
@@ -35,20 +35,19 @@ namespace rent.Controllers
             {
                 return BadRequest(e.Message);
             }
-           
         }
 
         [HttpPost("/sign-up")]
-        public async Task<IActionResult> SignUpAsync(string login, string password, string email, string country)
+        public async Task<IActionResult> SignUpAsync(SignUpDto signUpDto)
         {
             try
             {
-                var result = await _service.SignUpAsync(login, password, email, country);
+                var result = await _service.SignUpAsync(signUpDto);
 
                 return Ok(result);
             }
 
-            catch (CredentialsExc e)
+            catch (InternalException e)
             {
                 return Unauthorized(e.Message);
             }
@@ -56,10 +55,6 @@ namespace rent.Controllers
             {
                 return BadRequest(e.Message);
             }
-
-            /*var result = await _service.LogInAsync(login, password);
-
-            return Ok(result);*/
         }
 
     }
