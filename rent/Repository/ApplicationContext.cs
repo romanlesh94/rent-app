@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using rent.Entities;
-using rent.Entities.Settings;
+using PersonService.Entities;
+using PersonService.Entities.Settings;
 
-namespace rent.Repository
+namespace PersonService.Repository
 {
     public class PersonDbContext : DbContext
     {

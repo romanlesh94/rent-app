@@ -1,4 +1,4 @@
-﻿namespace rent.Models
+﻿namespace PersonService.Models
 {
     public class AuthToken
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using rent.Entities.Exceptions;
-using rent.Models.Dto;
-using rent.Services;
+using PersonService.Entities.Exceptions;
+using PersonService.Models.Dto;
+using PersonService.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace rent.Controllers
+namespace PersonService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -18,7 +18,7 @@ namespace rent.Controllers
             _service = service;
         }
 
-        [HttpPost("/log-in")]
+        [HttpPost("/login")]
         public async Task<IActionResult> LogInAsync(LoginDto loginDto)
         {
             try
@@ -37,7 +37,7 @@ namespace rent.Controllers
             }
         }
 
-        [HttpPost("/sign-up")]
+        [HttpPost("/signup")]
         public async Task<IActionResult> SignUpAsync(SignUpDto signUpDto)
         {
             try

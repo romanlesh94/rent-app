@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace rent.Models.Dto
+namespace PersonService.Models.Dto
 {
     public class SignUpDto
     {

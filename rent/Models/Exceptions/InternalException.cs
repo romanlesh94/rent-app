@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace rent.Entities.Exceptions
+namespace PersonService.Entities.Exceptions
 {
     public class InternalException : Exception
     {

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace rent.Repository.Migrations
+namespace PersonService.Repository.Migrations
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration

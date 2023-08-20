@@ -4,11 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using rent.Entities.Settings;
-using rent.Extensions;
-using rent.Repository;
+using PersonService.Entities.Settings;
+using PersonService.Extensions;
+using PersonService.Repository;
 
-namespace rent
+namespace PersonService
 {
     public class Startup
     {

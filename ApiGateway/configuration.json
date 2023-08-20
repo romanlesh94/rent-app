@@ -1,0 +1,58 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/authentication/logIn",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "personservice",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/login",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/authentication/signUp",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "personservice",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/signup",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+        "DownstreamPathTemplate": "/api/House/getHouses",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "houseapi",
+            "Port": 5002
+          }
+        ],
+        "UpstreamPathTemplate": "/getHouses",
+        "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/createHouse",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "houseapi",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/createHouse",
+      "UpstreamHttpMethod": [ "POST" ]
+    }
+  ],
+  "Global configuration": {
+    "BaseUrl": "http://localhost:5000"
+  },
+  "Secrets": {
+    "secretKey": "mysupersecret_secretkeyramanliashneuski"
+  }
+}

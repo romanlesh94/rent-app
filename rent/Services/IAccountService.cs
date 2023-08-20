@@ -1,10 +1,10 @@
-﻿using rent.Entities;
-using rent.Entities.Dto;
-using rent.Models;
-using rent.Models.Dto;
+﻿using PersonService.Entities;
+using PersonService.Entities.Dto;
+using PersonService.Models;
+using PersonService.Models.Dto;
 using System.Threading.Tasks;
 
-namespace rent.Services
+namespace PersonService.Services
 {
     public interface IAccountService
     {

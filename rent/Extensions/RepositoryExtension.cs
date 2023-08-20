@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using rent.Repository;
+using PersonService.Repository;
 
-namespace rent.Extensions
+namespace PersonService.Extensions
 {
     public static class RepositoryExtension
     {

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rent", "rent\rent.csproj", "{E2FD0AA2-C450-4DD7-9620-7368E18A61B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonService", "rent\PersonService.csproj", "{E2FD0AA2-C450-4DD7-9620-7368E18A61B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HouseApi", "PropertiesApi\HouseApi.csproj", "{537166F4-622A-4DB1-AD5C-600749A852D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{A10DA047-8555-42D7-A719-17B710EE5697}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{537166F4-622A-4DB1-AD5C-600749A852D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{537166F4-622A-4DB1-AD5C-600749A852D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{537166F4-622A-4DB1-AD5C-600749A852D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A10DA047-8555-42D7-A719-17B710EE5697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A10DA047-8555-42D7-A719-17B710EE5697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A10DA047-8555-42D7-A719-17B710EE5697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A10DA047-8555-42D7-A719-17B710EE5697}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

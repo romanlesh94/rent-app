@@ -3,14 +3,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Validations;
-using rent.Entities;
-using rent.Entities.Dto;
-using rent.Entities.Exceptions;
-using rent.Entities.Settings;
-using rent.Models;
-using rent.Models.Dto;
-using rent.Models.Exceptions;
-using rent.Repository;
+using PersonService.Entities;
+using PersonService.Entities.Dto;
+using PersonService.Entities.Exceptions;
+using PersonService.Entities.Settings;
+using PersonService.Models;
+using PersonService.Models.Dto;
+using PersonService.Models.Exceptions;
+using PersonService.Repository;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,7 +18,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace rent.Services
+namespace PersonService.Services
 {
     public class AccountService : IAccountService
     {

@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using rent.Repository;
+using PersonService.Repository;
 
 #nullable disable
 
-namespace rent.Repository.Migrations
+namespace PersonService.Repository.Migrations
 {
     [DbContext(typeof(PersonDbContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot

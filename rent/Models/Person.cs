@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace rent.Entities
+namespace PersonService.Entities
 {
     public class Person : BaseEntity
     {

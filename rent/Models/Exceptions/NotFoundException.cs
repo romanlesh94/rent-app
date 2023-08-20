@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace rent.Models.Exceptions
+namespace PersonService.Models.Exceptions
 {
     public class NotFoundException : Exception
     {

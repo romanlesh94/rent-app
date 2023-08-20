@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace PersonService.Extensions
+namespace ApiGateway.Extensions
 {
     public static class AuthExtension
     {

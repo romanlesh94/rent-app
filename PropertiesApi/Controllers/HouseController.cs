@@ -16,14 +16,14 @@ namespace HouseApi.Controllers
             _service = service;
         }
 
-        [HttpGet("/get-houses")]
+        [HttpGet("/getHouses")]
         public async Task<IActionResult> GetAllHousesAsync()
         {
             var result = await _service.GetAllHousesAsync();
             return Ok(result);
         }
 
-        [HttpPost("/create-house")]
+        [HttpPost("/createHouse")]
         public async Task<IActionResult> CreateHouseAsync(CreateHouseDto createHouseDto)
         {
             var result = await _service.CreateHouseAsync(createHouseDto);

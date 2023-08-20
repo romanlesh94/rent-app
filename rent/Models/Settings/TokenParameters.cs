@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace rent.Entities.Settings
+namespace PersonService.Entities.Settings
 {
     public class TokenParameters
     {
