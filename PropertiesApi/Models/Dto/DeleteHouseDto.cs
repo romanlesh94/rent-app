@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HouseApi.Models
+namespace HouseApi.Models.Dto
 {
-    public class House : BaseEntity
+    public class DeleteHouseDto
     {
         [Required(AllowEmptyStrings = false)]
         [StringLength(100)]

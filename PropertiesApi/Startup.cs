@@ -14,8 +14,7 @@ namespace HouseApi
     {
         public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; set; }

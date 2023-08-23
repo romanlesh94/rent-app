@@ -19,5 +19,8 @@ namespace HouseApi.Models.Dto
         [Required(AllowEmptyStrings = false)]
         [StringLength(200)]
         public string Address { get; set; }
+
+        [Required]
+        public int Price { get; set; }
     }
 }

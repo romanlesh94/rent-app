@@ -1,57 +1,109 @@
 {
+  "Global configuration": {
+    "BaseUrl": "http://localhost:5001"
+  },
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/authentication/logIn",
+      "DownstreamPathTemplate": "/api/Account/logIn",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "personservice",
-          "Port": 5001
+          "Host": "localhost",
+          "Port": 5002
         }
       ],
       "UpstreamPathTemplate": "/login",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "person"
     },
     {
-      "DownstreamPathTemplate": "/api/authentication/signUp",
+      "DownstreamPathTemplate": "/api/Account/signUp",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "personservice",
-          "Port": 5001
+          "Host": "localhost",
+          "Port": 5002
         }
       ],
       "UpstreamPathTemplate": "/signup",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "person"
     },
     {
-        "DownstreamPathTemplate": "/api/House/getHouses",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "houseapi",
-            "Port": 5002
-          }
-        ],
-        "UpstreamPathTemplate": "/getHouses",
-        "UpstreamHttpMethod": [ "GET" ]
+      "DownstreamPathTemplate": "/api/House/getHouses",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/getHouses",
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "house"
     },
     {
       "DownstreamPathTemplate": "/api/House/createHouse",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "houseapi",
-          "Port": 5002
+          "Host": "localhost",
+          "Port": 5003
         }
       ],
       "UpstreamPathTemplate": "/createHouse",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/updateHouse",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/updateHouse",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/deleteHouse",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/deleteHouse",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "SwaggerKey": "house"
     }
   ],
-  "Global configuration": {
-    "BaseUrl": "http://localhost:5000"
-  },
+  "SwaggerEndPoints": [
+    {
+      "Key": "person",
+      "Config": [
+        {
+          "Name": "Person API",
+          "Version": "v1",
+          "Url": "http://localhost:5002/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "house",
+      "Config": [
+        {
+          "Name": "House API",
+          "Version": "v1",
+          "Url": "http://localhost:5003/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
   "Secrets": {
     "secretKey": "mysupersecret_secretkeyramanliashneuski"
   }

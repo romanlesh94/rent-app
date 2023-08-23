@@ -8,6 +8,7 @@ namespace HouseApi.Repository
     {
         Task AddHouseAsync(House house);
         Task<List<House>> GetHousesAsync();
+        Task<House> GetHouseAsync(string name);
         Task<House> GetHouseByIdAsync(long id);
         Task UpdateHouseAsync(House house);
         Task DeleteHouseAsync(House house);

@@ -9,5 +9,7 @@ namespace HouseApi.Services
     {
         Task<House> CreateHouseAsync(CreateHouseDto createHouseDto);
         Task<List<House>> GetAllHousesAsync();
+        Task UpdateHouseAsync(UpdateHouseDto updateHouseDto);
+        Task DeleteHouseAsync(DeleteHouseDto deleteHouseDto);
     }
 }

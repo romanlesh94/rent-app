@@ -27,6 +27,11 @@ namespace HouseApi.Repository
             return await _context.Houses.ToListAsync();
         }
 
+        public async Task<House> GetHouseAsync(string name)
+        {
+            return await _context.Houses.FirstOrDefaultAsync(x => x.Name == name.Trim());
+        }
+
         public async Task<House> GetHouseByIdAsync(long id)
         {
             return await _context.Houses.FindAsync(id);

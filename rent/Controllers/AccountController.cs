@@ -18,7 +18,7 @@ namespace PersonService.Controllers
             _service = service;
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public async Task<IActionResult> LogInAsync(LoginDto loginDto)
         {
             try
@@ -37,7 +37,7 @@ namespace PersonService.Controllers
             }
         }
 
-        [HttpPost("/signup")]
+        [HttpPost("signup")]
         public async Task<IActionResult> SignUpAsync(SignUpDto signUpDto)
         {
             try

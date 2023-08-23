@@ -21,6 +21,10 @@ namespace ApiGateway
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureAppConfiguration((host, config) =>
+                {
+                    config.AddJsonFile("configuration.json");
                 });
     }
 }
