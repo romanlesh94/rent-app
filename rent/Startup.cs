@@ -4,11 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using PersonService.Entities.Settings;
-using PersonService.Extensions;
-using PersonService.Repository;
+using PersonApi.Entities.Settings;
+using PersonApi.Extensions;
+using PersonApi.Middleware;
+using PersonApi.Repository;
 
-namespace PersonService
+namespace PersonApi
 {
     public class Startup
     {
@@ -23,7 +24,6 @@ namespace PersonService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<TokenParameters>(Configuration.GetSection("TokenValidationParameters"));
             services.AddControllers();
             services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
             services.AddDbContext<PersonDbContext>();
@@ -44,6 +44,8 @@ namespace PersonService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

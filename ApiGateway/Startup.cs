@@ -14,7 +14,7 @@ namespace ApiGateway
     {
         public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder().AddJsonFile("configuration.json");
+            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
             Configuration = configuration;
         }
 

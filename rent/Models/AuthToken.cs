@@ -1,4 +1,4 @@
-﻿namespace PersonService.Models
+﻿namespace PersonApi.Models
 {
     public class AuthToken
     {

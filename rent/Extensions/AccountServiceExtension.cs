@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PersonService.Services;
+using PersonApi.Services;
 
-namespace PersonService.Extensions
+namespace PersonApi.Extensions
 {
     public static class AccountServiceExtension
     {

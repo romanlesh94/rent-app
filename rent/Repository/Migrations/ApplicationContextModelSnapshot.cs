@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PersonService.Repository;
+using PersonApi.Repository;
 
 #nullable disable
 
-namespace PersonService.Repository.Migrations
+namespace PersonApi.Repository.Migrations
 {
     [DbContext(typeof(PersonDbContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
@@ -21,7 +21,7 @@ namespace PersonService.Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("rent.Entities.Person", b =>
+            modelBuilder.Entity("PersonApi.Entities.Person", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()

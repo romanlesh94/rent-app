@@ -1,11 +1,11 @@
-﻿using PersonService.Entities;
+﻿using PersonApi.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonService.Repository
+namespace PersonApi.Repository
 {
     public interface IPersonRepository {
         Task AddPersonAsync(Person person);

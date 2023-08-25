@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using PersonService.Entities;
-using PersonService.Entities.Settings;
+using PersonApi.Entities;
+using PersonApi.Entities.Settings;
 
-namespace PersonService.Repository
+namespace PersonApi.Repository
 {
     public class PersonDbContext : DbContext
     {

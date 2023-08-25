@@ -1,10 +1,8 @@
-﻿using PersonService.Entities;
-using PersonService.Entities.Dto;
-using PersonService.Models;
-using PersonService.Models.Dto;
+﻿using PersonApi.Models;
+using PersonApi.Models.Dto;
 using System.Threading.Tasks;
 
-namespace PersonService.Services
+namespace PersonApi.Services
 {
     public interface IAccountService
     {

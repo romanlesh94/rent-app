@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonService.Entities
+namespace PersonApi.Entities
 {
     public class BaseEntity
     {

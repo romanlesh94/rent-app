@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PersonService.Entities.Exceptions;
-using PersonService.Models.Dto;
-using PersonService.Services;
+using PersonApi.Entities.Exceptions;
+using PersonApi.Models.Dto;
+using PersonApi.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace PersonService.Controllers
+namespace PersonApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -21,40 +21,17 @@ namespace PersonService.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LogInAsync(LoginDto loginDto)
         {
-            try
-            {
-                var result = await _service.LogInAsync(loginDto);
+            var result = await _service.LogInAsync(loginDto);
 
-                return Ok(result);
-            }
-            catch (InternalException e)
-            {
-                return Unauthorized(e.Message);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(result);
         }
 
         [HttpPost("signup")]
         public async Task<IActionResult> SignUpAsync(SignUpDto signUpDto)
         {
-            try
-            {
-                var result = await _service.SignUpAsync(signUpDto);
+            var result = await _service.SignUpAsync(signUpDto);
 
-                return Ok(result);
-            }
-
-            catch (InternalException e)
-            {
-                return Unauthorized(e.Message);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(result);
         }
 
     }

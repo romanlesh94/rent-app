@@ -12,12 +12,12 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "sign-up",
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "rent": {
+    "PersonApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonService.Entities.Settings
+namespace PersonApi.Entities.Settings
 {
     public class ConnectionStrings
     {

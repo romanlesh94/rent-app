@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PersonService.Repository;
+using PersonApi.Repository;
 
 #nullable disable
 
-namespace PersonService.Repository.Migrations
+namespace PersonApi.Repository.Migrations
 {
     [DbContext(typeof(PersonDbContext))]
     [Migration("20230728202852_InitialMigration")]

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PersonService.Repository;
+using PersonApi.Repository;
 
-namespace PersonService.Extensions
+namespace PersonApi.Extensions
 {
     public static class DbContextExtension
     {

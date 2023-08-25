@@ -18,10 +18,6 @@ namespace ApiGateway.Extensions
                 {
                     ValidIssuer = Configuration["TokenValidationParameters:ValidIssuer"],
 
-                    ValidateIssuer = Convert.ToBoolean(Configuration["TokenValidationParameters:ValidateIssuer"]),
-
-                    ValidateAudience = Convert.ToBoolean(Configuration["TokenValidationParameters:ValidateAudience"]),
-
                     ValidAudience = Configuration["TokenValidationParameters:ValidAudience"],
 
                     ValidateLifetime = Convert.ToBoolean(Configuration["TokenValidationParameters:ValidateLifetime"]),

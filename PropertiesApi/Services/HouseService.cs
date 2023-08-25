@@ -23,15 +23,15 @@ namespace HouseApi.Services
 
             if (house != null) 
             {
-                throw new InternalException("Invalid name!");
+                throw new InternalException("This name already exists!");
             }
 
             House newHouse = new House
             {
-                Name = createHouseDto.Name,
-                Description = createHouseDto.Description,
-                Rules = createHouseDto.Rules,
-                Address = createHouseDto.Address,
+                Name = createHouseDto.Name.Trim(),
+                Description = createHouseDto.Description.Trim(),
+                Rules = createHouseDto.Rules.Trim(),
+                Address = createHouseDto.Address.Trim(),
                 Price = createHouseDto.Price,
             };
 

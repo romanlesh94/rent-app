@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace PersonService.Repository.Migrations
+namespace PersonApi.Repository.Migrations
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration

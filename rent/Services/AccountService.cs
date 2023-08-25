@@ -1,36 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Validations;
-using PersonService.Entities;
-using PersonService.Entities.Dto;
-using PersonService.Entities.Exceptions;
-using PersonService.Entities.Settings;
-using PersonService.Models;
-using PersonService.Models.Dto;
-using PersonService.Models.Exceptions;
-using PersonService.Repository;
+using PersonApi.Entities;
+using PersonApi.Entities.Exceptions;
+using PersonApi.Models;
+using PersonApi.Models.Dto;
+using PersonApi.Models.Exceptions;
+using PersonApi.Repository;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonService.Services
+namespace PersonApi.Services
 {
     public class AccountService : IAccountService
     {
         private readonly IPersonRepository _personRepository;
-        private readonly TokenParameters _tokenParameters;
         private readonly IConfiguration _config;
 
 
-        public AccountService(IPersonRepository personRepository, IOptions<TokenParameters> tokenParameters, IConfiguration config)
+        public AccountService(IPersonRepository personRepository, IConfiguration config)
         {
             _personRepository = personRepository;
-            _tokenParameters = tokenParameters.Value;
             _config = config;
 
         }

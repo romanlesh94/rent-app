@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PersonService.Models.Exceptions
+namespace PersonApi.Models.Exceptions
 {
     public class NotFoundException : Exception
     {
