@@ -2,6 +2,7 @@
 using HouseApi.Models;
 using HouseApi.Models.Dto;
 using HouseApi.Models.Exceptions;
+using HouseApi.Models.Pagination;
 using HouseApi.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -40,11 +41,11 @@ namespace HouseApi.Services
             return newHouse;
         }
 
-        public async Task<List<House>> GetAllHousesAsync()
+        public async Task<PagedList<House>> GetAllHousesAsync(PaginationParameters pagination)
         {
-            var houses = await _houseRepository.GetHousesAsync();
+            var houses = await _houseRepository.GetHousesPageAsync(pagination);
 
-            return houses;
+            return new PagedList<House>(houses.houses, houses.notPagedCount, pagination);
         }
 
         public async Task UpdateHouseAsync(UpdateHouseDto updateHouseDto)

@@ -1,4 +1,5 @@
 ﻿using HouseApi.Models.Dto;
+using HouseApi.Models.Pagination;
 using HouseApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -16,10 +17,12 @@ namespace HouseApi.Controllers
             _service = service;
         }
 
-        [HttpGet("getHouses")]
-        public async Task<IActionResult> GetAllHousesAsync()
+        [HttpGet("getHouses/pageIndex/{pageIndex}/pageSize/{pageSize}")]
+        public async Task<IActionResult> GetAllHousesAsync(int pageIndex, int pageSize)
         {
-            var result = await _service.GetAllHousesAsync();
+            var pagination = new PaginationParameters(pageIndex, pageSize);
+
+            var result = await _service.GetAllHousesAsync(pagination);
             return Ok(result);
         }
 

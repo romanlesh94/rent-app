@@ -30,7 +30,7 @@
       "SwaggerKey": "person"
     },
     {
-      "DownstreamPathTemplate": "/api/House/getHouses",
+      "DownstreamPathTemplate": "/api/House/getHouses/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -38,7 +38,7 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/getHouses",
+      "UpstreamPathTemplate": "/getHouses/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "UpstreamHttpMethod": [ "GET" ],
       "SwaggerKey": "house"
     },
