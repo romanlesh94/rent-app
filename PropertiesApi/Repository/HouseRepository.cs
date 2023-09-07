@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HouseApi.Models.Pagination;
 using HouseApi.Helpers;
+using HouseApi.Models.Options;
 
 namespace HouseApi.Repository
 {
@@ -39,11 +40,19 @@ namespace HouseApi.Repository
             return await _context.Houses.FindAsync(id);
         }
 
-        public async Task<(List<House> houses, int notPagedCount)> GetHousesPageAsync(PaginationParameters pagination)
+        public async Task<(List<House> houses, int notPagedCount)> GetHousesPageAsync(PaginationParameters pagination, 
+            HouseSearchOptions houseSearchOptions = null)
         {
             var query = _context.Houses.AsQueryable();
 
-            return (await PaginationHelper.GetPagedListAsync(query, pagination), await query.CountAsync());
+            if (houseSearchOptions == null)
+            {
+                return (await PaginationHelper.GetPagedListAsync(query, pagination), await query.CountAsync());
+            }
+
+            var searchQuery = SearchHelper.BuildSearchQuery(query, houseSearchOptions);
+
+            return (await PaginationHelper.GetPagedListAsync(searchQuery, pagination), await searchQuery.CountAsync());
         }
 
         public async Task UpdateHouseAsync(House house)
