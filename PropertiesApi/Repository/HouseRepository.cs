@@ -43,7 +43,7 @@ namespace HouseApi.Repository
         public async Task<(List<House> houses, int notPagedCount)> GetHousesPageAsync(PaginationParameters pagination, 
             HouseSearchOptions houseSearchOptions = null)
         {
-            var query = _context.Houses.AsQueryable();
+            var query = _context.Houses.AsQueryable().OrderBy(h => h.Name);
 
             if (houseSearchOptions == null)
             {

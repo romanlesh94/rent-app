@@ -11,7 +11,9 @@ namespace ApiGateway.Extensions
     {
         public static void AddAuth(this IServiceCollection services, IConfiguration Configuration)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            var authenticationProviderKey = "Bearer";
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(authenticationProviderKey, options =>
             {
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters

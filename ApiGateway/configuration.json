@@ -40,6 +40,9 @@
       ],
       "UpstreamPathTemplate": "/getHouses/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "SwaggerKey": "house"
     },
     {

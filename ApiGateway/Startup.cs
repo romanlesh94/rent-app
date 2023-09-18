@@ -1,12 +1,16 @@
 using ApiGateway.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System.Text;
+using System;
 
 namespace ApiGateway
 {
@@ -22,9 +26,31 @@ namespace ApiGateway
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var authenticationProviderKey = "Bearer";
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+               .AddJwtBearer(authenticationProviderKey, cfg =>
+               {
+                   cfg.RequireHttpsMetadata = true;
+                   cfg.SaveToken = true;
+                   cfg.TokenValidationParameters = new TokenValidationParameters()
+                   {
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Secrets:secretKey"])),
+                       ValidateAudience = false,
+                       ValidateIssuer = false,
+                       ValidateLifetime = true,
+                       RequireExpirationTime = true,
+                       ClockSkew = TimeSpan.Zero,
+                       ValidateIssuerSigningKey = true,
+                   };
+               });
+
             services.AddControllers();
             services.AddOcelot(Configuration);
-            services.AddAuth(Configuration);
+
             services.AddSwaggerForOcelot(Configuration);
         }
 
