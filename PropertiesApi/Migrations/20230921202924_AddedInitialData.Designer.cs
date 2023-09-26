@@ -3,6 +3,7 @@ using HouseApi.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseApi.Migrations
 {
     [DbContext(typeof(HouseDbContext))]
-    partial class HouseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230921202924_AddedInitialData")]
+    partial class AddedInitialData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,62 +77,6 @@ namespace HouseApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HousePropertyMappings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            HouseId = 1L,
-                            PropertyId = 2L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            HouseId = 1L,
-                            PropertyId = 3L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            HouseId = 1L,
-                            PropertyId = 5L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            HouseId = 2L,
-                            PropertyId = 2L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            HouseId = 2L,
-                            PropertyId = 13L
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            HouseId = 2L,
-                            PropertyId = 11L
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            HouseId = 3L,
-                            PropertyId = 10L
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            HouseId = 3L,
-                            PropertyId = 9L
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            HouseId = 3L,
-                            PropertyId = 7L
-                        });
                 });
 
             modelBuilder.Entity("HouseApi.Models.Property", b =>

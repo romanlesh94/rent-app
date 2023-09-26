@@ -15,5 +15,6 @@ namespace HouseApi.Repository
         Task<House> GetHouseByIdAsync(long id);
         Task UpdateHouseAsync(House house);
         Task DeleteHouseAsync(House house);
+        Task<IEnumerable<HousePropertyDto>> GetHousePropertiesAsync(long id);
     }
 }

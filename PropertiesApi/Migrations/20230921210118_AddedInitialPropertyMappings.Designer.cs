@@ -3,6 +3,7 @@ using HouseApi.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseApi.Migrations
 {
     [DbContext(typeof(HouseDbContext))]
-    partial class HouseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230921210118_AddedInitialPropertyMappings")]
+    partial class AddedInitialPropertyMappings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,83 +149,6 @@ namespace HouseApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HouseProperties");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            PropertyText = "Free Wi-Fi"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            PropertyText = "King-size bed"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            PropertyText = "Free parking"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            PropertyText = "Breakfast included"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            PropertyText = "Pet-friendly"
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            PropertyText = "Non-smoking"
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            PropertyText = "Swimming pool"
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            PropertyText = "Safe for children"
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            PropertyText = "Transfer from the airport"
-                        },
-                        new
-                        {
-                            Id = 10L,
-                            PropertyText = "Beautiful view"
-                        },
-                        new
-                        {
-                            Id = 11L,
-                            PropertyText = "BBQ"
-                        },
-                        new
-                        {
-                            Id = 12L,
-                            PropertyText = "Balcony"
-                        },
-                        new
-                        {
-                            Id = 13L,
-                            PropertyText = "Outside area"
-                        },
-                        new
-                        {
-                            Id = 14L,
-                            PropertyText = "TV"
-                        },
-                        new
-                        {
-                            Id = 15L,
-                            PropertyText = "Washing machine"
-                        });
                 });
 #pragma warning restore 612, 618
         }

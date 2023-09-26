@@ -83,6 +83,19 @@
       "UpstreamPathTemplate": "/deleteHouse",
       "UpstreamHttpMethod": [ "DELETE" ],
       "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/getHouse/id/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/getHouse/id/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "house"
     }
   ],
   "SwaggerEndPoints": [

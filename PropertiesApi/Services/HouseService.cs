@@ -66,7 +66,16 @@ namespace HouseApi.Services
             house.Price = updateHouseDto.Price;
 
             await _houseRepository.UpdateHouseAsync(house);
-        } 
+        }
+
+        public async Task<HousePageDto> GetHouseWithPropertiesAsync(long id)
+        {
+            var house = await _houseRepository.GetHouseByIdAsync(id);
+
+            var properties = await _houseRepository.GetHousePropertiesAsync(id);
+
+            return new HousePageDto (house, properties);
+        }
 
         public async Task DeleteHouseAsync(DeleteHouseDto deleteHouseDto)
         {

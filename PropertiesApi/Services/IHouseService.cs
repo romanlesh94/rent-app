@@ -2,6 +2,7 @@
 using HouseApi.Models.Dto;
 using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HouseApi.Services
@@ -12,5 +13,6 @@ namespace HouseApi.Services
         Task<PagedList<House>> GetAllHousesAsync(PaginationParameters pagination, HouseSearchOptions houseSearchOptions);
         Task UpdateHouseAsync(UpdateHouseDto updateHouseDto);
         Task DeleteHouseAsync(DeleteHouseDto deleteHouseDto);
+        Task<HousePageDto> GetHouseWithPropertiesAsync(long id);
     }
 }

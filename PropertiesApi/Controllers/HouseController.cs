@@ -27,6 +27,13 @@ namespace HouseApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("getHouse/id/{id}")]
+        public async Task<IActionResult> GetHouseWithPropertiesAsync(int id)
+        {
+            var result = await _service.GetHouseWithPropertiesAsync(id);
+            return Ok(result);
+        }
+
         [HttpPost("createHouse")]
         public async Task<IActionResult> CreateHouseAsync(CreateHouseDto createHouseDto)
         {

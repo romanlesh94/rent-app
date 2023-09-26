@@ -40,6 +40,22 @@ namespace HouseApi.Repository
             return await _context.Houses.FindAsync(id);
         }
 
+        public async Task <IEnumerable<HousePropertyDto>> GetHousePropertiesAsync(long id)
+        {
+            var mappings = await _context.HousePropertyMappings.Where(x => x.HouseId == id).ToListAsync();
+
+            var properties = await _context.HouseProperties.ToListAsync();
+
+
+            var houseProperties = properties.Join(mappings,
+                    p => p.Id,
+                    m => m.PropertyId,
+                    (p, m) => new HousePropertyDto{ Id = m.PropertyId, Text = p.PropertyText }
+                );
+
+            return houseProperties;
+        }
+
         public async Task<(List<House> houses, int notPagedCount)> GetHousesPageAsync(PaginationParameters pagination, 
             HouseSearchOptions houseSearchOptions = null)
         {
