@@ -14,5 +14,7 @@ namespace HouseApi.Services
         Task UpdateHouseAsync(UpdateHouseDto updateHouseDto);
         Task DeleteHouseAsync(DeleteHouseDto deleteHouseDto);
         Task<HousePageDto> GetHouseWithPropertiesAsync(long id);
+        Task<List<Property>> GetHousePropertiesAsync();
+
     }
 }

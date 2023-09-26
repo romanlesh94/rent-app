@@ -21,7 +21,7 @@ namespace HouseApi.Services
 
         public async Task<House> CreateHouseAsync(CreateHouseDto createHouseDto)
         {
-            var house = await _houseRepository.GetHouseAsync(createHouseDto.Name);
+            var house = await _houseRepository.GetHouseByNameAsync(createHouseDto.Name);
 
             if (house != null) 
             {
@@ -38,6 +38,19 @@ namespace HouseApi.Services
             };
 
             await _houseRepository.AddHouseAsync(newHouse);
+
+            var createdHouse = await _houseRepository.GetHouseByNameAsync(createHouseDto.Name);
+
+            foreach (var property in createHouseDto.Properties)
+            {
+                HousePropertyMapping houseProperty = new HousePropertyMapping
+                {
+                    HouseId = createdHouse.Id,
+                    PropertyId = property,
+                };
+
+                await _houseRepository.AddHousePropertyAsync(houseProperty);
+            }
             
             return newHouse;
         }
@@ -52,7 +65,7 @@ namespace HouseApi.Services
         public async Task UpdateHouseAsync(UpdateHouseDto updateHouseDto)
         {
 
-            var house = await _houseRepository.GetHouseAsync(updateHouseDto.Name);
+            var house = await _houseRepository.GetHouseByNameAsync(updateHouseDto.Name);
 
             if (house == null)
             {
@@ -68,6 +81,11 @@ namespace HouseApi.Services
             await _houseRepository.UpdateHouseAsync(house);
         }
 
+        public async Task<List<Property>> GetHousePropertiesAsync()
+        {
+            return await _houseRepository.GetHousePropertiesAsync();
+        }
+
         public async Task<HousePageDto> GetHouseWithPropertiesAsync(long id)
         {
             var house = await _houseRepository.GetHouseByIdAsync(id);
@@ -79,7 +97,7 @@ namespace HouseApi.Services
 
         public async Task DeleteHouseAsync(DeleteHouseDto deleteHouseDto)
         {
-            var house = await _houseRepository.GetHouseAsync(deleteHouseDto.Name);
+            var house = await _houseRepository.GetHouseByNameAsync(deleteHouseDto.Name);
 
             if (house == null)
             {

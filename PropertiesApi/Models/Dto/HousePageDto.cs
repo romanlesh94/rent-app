@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace HouseApi.Models
+namespace HouseApi.Models.Dto
 {
     public class HousePageDto
     {

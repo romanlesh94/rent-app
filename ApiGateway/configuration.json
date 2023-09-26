@@ -96,6 +96,19 @@
       "UpstreamPathTemplate": "/getHouse/id/{id}",
       "UpstreamHttpMethod": [ "GET" ],
       "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/getHouseProperties",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/getHouseProperties",
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "house"
     }
   ],
   "SwaggerEndPoints": [

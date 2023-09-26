@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HouseApi.Models.Pagination;
 using HouseApi.Helpers;
 using HouseApi.Models.Options;
+using HouseApi.Models.Dto;
 
 namespace HouseApi.Repository
 {
@@ -30,9 +31,15 @@ namespace HouseApi.Repository
             return await _context.Houses.ToListAsync();
         }
 
-        public async Task<House> GetHouseAsync(string name)
+        public async Task<House> GetHouseByNameAsync(string name)
         {
             return await _context.Houses.FirstOrDefaultAsync(x => x.Name == name.Trim());
+        }
+
+        public async Task AddHousePropertyAsync(HousePropertyMapping property)
+        {
+            await _context.HousePropertyMappings.AddAsync(property);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<House> GetHouseByIdAsync(long id)
@@ -40,12 +47,16 @@ namespace HouseApi.Repository
             return await _context.Houses.FindAsync(id);
         }
 
+        public async Task<List<Property>> GetHousePropertiesAsync()
+        {
+            return await _context.HouseProperties.ToListAsync();
+        }
+
         public async Task <IEnumerable<HousePropertyDto>> GetHousePropertiesAsync(long id)
         {
             var mappings = await _context.HousePropertyMappings.Where(x => x.HouseId == id).ToListAsync();
 
             var properties = await _context.HouseProperties.ToListAsync();
-
 
             var houseProperties = properties.Join(mappings,
                     p => p.Id,

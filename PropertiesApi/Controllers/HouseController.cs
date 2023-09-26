@@ -3,6 +3,7 @@ using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
 using HouseApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HouseApi.Controllers
@@ -31,6 +32,13 @@ namespace HouseApi.Controllers
         public async Task<IActionResult> GetHouseWithPropertiesAsync(int id)
         {
             var result = await _service.GetHouseWithPropertiesAsync(id);
+            return Ok(result);
+        }
+
+        [HttpGet("getHouseProperties")]
+        public async Task<IActionResult> GetHousePropertiesAsync()
+        {
+            var result = await _service.GetHousePropertiesAsync();
             return Ok(result);
         }
 

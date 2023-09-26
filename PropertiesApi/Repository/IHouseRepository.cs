@@ -1,4 +1,5 @@
 ﻿using HouseApi.Models;
+using HouseApi.Models.Dto;
 using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace HouseApi.Repository
         Task AddHouseAsync(House house);
         Task<List<House>> GetHousesAsync();
         Task<(List<House> houses, int notPagedCount)> GetHousesPageAsync(PaginationParameters pagination, HouseSearchOptions houseSearchOptions);
-        Task<House> GetHouseAsync(string name);
+        Task<House> GetHouseByNameAsync(string name);
         Task<House> GetHouseByIdAsync(long id);
         Task UpdateHouseAsync(House house);
         Task DeleteHouseAsync(House house);
         Task<IEnumerable<HousePropertyDto>> GetHousePropertiesAsync(long id);
+        Task<List<Property>> GetHousePropertiesAsync();
+        Task AddHousePropertyAsync(HousePropertyMapping property);
     }
 }
