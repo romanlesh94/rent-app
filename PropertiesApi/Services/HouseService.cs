@@ -1,5 +1,6 @@
 ﻿using HouseApi.Entities.Exceptions;
 using HouseApi.Models;
+using HouseApi.Models.Booking;
 using HouseApi.Models.Dto;
 using HouseApi.Models.Exceptions;
 using HouseApi.Models.Options;
@@ -105,6 +106,16 @@ namespace HouseApi.Services
             }
 
             await _houseRepository.DeleteHouseAsync(house);
+        }
+
+        public async Task AddHouseBookingAsync(HouseBooking houseBooking)
+        {
+            await _houseRepository.AddHouseBookingAsync(houseBooking);
+        }
+
+        public async Task<List<HouseBooking>> GetHouseBookingsAsync(long id)
+        {
+            return await _houseRepository.GetHouseBookingsAsync(id);
         }
     }
 }

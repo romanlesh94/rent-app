@@ -1,4 +1,5 @@
 ﻿using HouseApi.Models;
+using HouseApi.Models.Booking;
 using HouseApi.Models.Dto;
 using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
@@ -19,5 +20,7 @@ namespace HouseApi.Repository
         Task<IEnumerable<HousePropertyDto>> GetHousePropertiesAsync(long id);
         Task<List<Property>> GetHousePropertiesAsync();
         Task AddHousePropertyAsync(HousePropertyMapping property);
+        Task AddHouseBookingAsync(HouseBooking houseBooking);
+        Task<List<HouseBooking>> GetHouseBookingsAsync(long id);
     }
 }

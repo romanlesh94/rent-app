@@ -1,4 +1,5 @@
-﻿using HouseApi.Models.Dto;
+﻿using HouseApi.Models.Booking;
+using HouseApi.Models.Dto;
 using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
 using HouseApi.Services;
@@ -62,7 +63,19 @@ namespace HouseApi.Controllers
             return Ok("The house has been deleted!");
         }
 
+        [HttpPost("addHouseBooking")]
+        public async Task<IActionResult> AddHouseBookingAsync(HouseBooking houseBooking)
+        {
+            await _service.AddHouseBookingAsync(houseBooking);
+            return Ok("The house has been booked");
+        }
 
+        [HttpGet("getHouseBookings")]
+        public async Task<IActionResult> GetHouseBookingsAsync(long id)
+        {
+            var bookings = await _service.GetHouseBookingsAsync(id);
+            return Ok(bookings);
+        }
 
     }
 }

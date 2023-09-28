@@ -1,4 +1,5 @@
 ﻿using HouseApi.Models;
+using HouseApi.Models.Booking;
 using HouseApi.Models.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -17,6 +18,7 @@ namespace HouseApi.Repository
         public DbSet<House> Houses { get; set; }
         public DbSet<HousePropertyMapping> HousePropertyMappings { get; set; }
         public DbSet<Property> HouseProperties { get; set; }
+        public DbSet<HouseBooking> Bookings { get; set; }
 
         public HouseDbContext() : base()
         {
@@ -30,6 +32,9 @@ namespace HouseApi.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<HouseBooking>().Property(b => b.CheckInDate).HasColumnType("date");
+            modelBuilder.Entity<HouseBooking>().Property(b => b.CheckOutDate).HasColumnType("date");
+
             Property property1 = new Property { Id = 1, PropertyText = "Free Wi-Fi" };
             Property property2 = new Property { Id = 2, PropertyText = "King-size bed" };
             Property property3 = new Property { Id = 3, PropertyText = "Free parking" };

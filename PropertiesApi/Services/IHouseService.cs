@@ -1,4 +1,5 @@
 ﻿using HouseApi.Models;
+using HouseApi.Models.Booking;
 using HouseApi.Models.Dto;
 using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
@@ -15,6 +16,7 @@ namespace HouseApi.Services
         Task DeleteHouseAsync(DeleteHouseDto deleteHouseDto);
         Task<HousePageDto> GetHouseWithPropertiesAsync(long id);
         Task<List<Property>> GetHousePropertiesAsync();
-
+        Task AddHouseBookingAsync(HouseBooking houseBooking);
+        Task<List<HouseBooking>> GetHouseBookingsAsync(long id);
     }
 }
