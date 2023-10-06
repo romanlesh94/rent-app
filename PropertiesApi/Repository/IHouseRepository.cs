@@ -4,6 +4,7 @@ using HouseApi.Models.Dto;
 using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HouseApi.Repository

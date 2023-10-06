@@ -135,6 +135,45 @@
       "UpstreamPathTemplate": "/getHouseBookings",
       "UpstreamHttpMethod": [ "GET" ],
       "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/addHouseImage",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/addHouseImage",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/getHouseImages",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/getHouseImages",
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/getHouseFirstImage",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/getHouseFirstImage",
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "house"
     }
   ],
   "SwaggerEndPoints": [

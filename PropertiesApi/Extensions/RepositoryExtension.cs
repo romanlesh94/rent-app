@@ -8,6 +8,7 @@ namespace HouseApi.Extensions
         public static void AddRepository(this IServiceCollection services)
         {
             services.AddScoped<IHouseRepository, HouseRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
         }
     }
 }

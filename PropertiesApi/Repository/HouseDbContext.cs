@@ -19,6 +19,7 @@ namespace HouseApi.Repository
         public DbSet<HousePropertyMapping> HousePropertyMappings { get; set; }
         public DbSet<Property> HouseProperties { get; set; }
         public DbSet<HouseBooking> Bookings { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         public HouseDbContext() : base()
         {

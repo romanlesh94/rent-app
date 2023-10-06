@@ -10,6 +10,5 @@ namespace HouseApi.Models.Booking
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set;}
 
-
     }
 }

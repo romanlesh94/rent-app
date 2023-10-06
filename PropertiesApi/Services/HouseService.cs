@@ -6,7 +6,11 @@ using HouseApi.Models.Exceptions;
 using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
 using HouseApi.Repository;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace HouseApi.Services
@@ -14,11 +18,15 @@ namespace HouseApi.Services
     public class HouseService : IHouseService
     {
         private readonly IHouseRepository _houseRepository;
+        private readonly IImageRepository _imageRepository;
 
-        public HouseService(IHouseRepository houseRepository)
+        public HouseService(IHouseRepository houseRepository, IImageRepository imageRepository)
         {
             _houseRepository = houseRepository;
+            _imageRepository = imageRepository;
         }
+
+        private const long FileMaxSize = 5242880;
 
         public async Task<House> CreateHouseAsync(CreateHouseDto createHouseDto)
         {
@@ -108,14 +116,72 @@ namespace HouseApi.Services
             await _houseRepository.DeleteHouseAsync(house);
         }
 
-        public async Task AddHouseBookingAsync(HouseBooking houseBooking)
+        public async Task AddHouseBookingAsync(AddHouseBookingDto addHouseBooking)
         {
+            string format = "MM/dd/yyyy";
+            DateTime checkInDate = DateTime.ParseExact(addHouseBooking.CheckInDate, format, CultureInfo.InvariantCulture);
+            DateTime checkOutDate = DateTime.ParseExact(addHouseBooking.CheckOutDate, format, CultureInfo.InvariantCulture);
+
+            //DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)
+            HouseBooking houseBooking = new HouseBooking
+            {
+                HouseId = addHouseBooking.HouseId,
+                GuestId = addHouseBooking.GuestId,
+                Price = addHouseBooking.Price,
+                CheckInDate = checkInDate,
+                CheckOutDate = checkOutDate,
+            };
+
             await _houseRepository.AddHouseBookingAsync(houseBooking);
         }
 
         public async Task<List<HouseBooking>> GetHouseBookingsAsync(long id)
         {
             return await _houseRepository.GetHouseBookingsAsync(id);
+        }
+
+        public async Task AddHouseImageAsync(long houseId, IFormFile file)
+        {
+            var house = await _houseRepository.GetHouseByIdAsync(houseId);
+
+            if (house == null)
+            {
+                throw new NotFoundException("House is not found!");
+            }
+
+            if (file.Length > FileMaxSize)
+            {
+                throw new InternalException("File size is more than 5mb");
+            }
+
+            if (file.Length == 0)
+            {
+                throw new InternalException("File length is 0");
+            }
+
+            using var memoryStream = new MemoryStream();
+
+            await file.CopyToAsync(memoryStream);
+
+            var image = new Image
+            {
+                House = house,
+                Data = memoryStream.ToArray(),
+            };
+
+            await _imageRepository.AddHouseImageAsync(image);
+        }
+
+        public async Task<List<byte[]>> GetHouseImagesAsync(long houseId)
+        {
+            return await _imageRepository.GetHouseImagesAsync(houseId);
+        }
+
+        public async Task<byte[]> GetHouseFirstImageAsync(long houseId)
+        {
+            var image = await _imageRepository.GetHouseFirstImageAsync(houseId);
+
+            return image.Data;
         }
     }
 }

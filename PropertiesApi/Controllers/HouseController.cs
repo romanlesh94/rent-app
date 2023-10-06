@@ -1,10 +1,13 @@
-﻿using HouseApi.Models.Booking;
+﻿using HouseApi.Models;
+using HouseApi.Models.Booking;
 using HouseApi.Models.Dto;
 using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
 using HouseApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace HouseApi.Controllers
@@ -64,7 +67,7 @@ namespace HouseApi.Controllers
         }
 
         [HttpPost("addHouseBooking")]
-        public async Task<IActionResult> AddHouseBookingAsync(HouseBooking houseBooking)
+        public async Task<IActionResult> AddHouseBookingAsync(AddHouseBookingDto houseBooking)
         {
             await _service.AddHouseBookingAsync(houseBooking);
             return Ok("The house has been booked");
@@ -77,5 +80,26 @@ namespace HouseApi.Controllers
             return Ok(bookings);
         }
 
+        [HttpPost("addHouseImage")]
+        public async Task<IActionResult> AddHouseImageAsync(long houseId, IFormFile file)
+        {
+            await _service.AddHouseImageAsync(houseId, file);
+            return Ok("The image has been added!");
+        }
+
+        [HttpGet("getHouseImages")]
+        public async Task<IActionResult> GetHouseImagesAsync(long houseId)
+        {
+            var images = await _service.GetHouseImagesAsync(houseId);
+
+            return Ok(images);
+        }
+
+        [HttpGet("getHouseFirstImage")]
+        public async Task<IActionResult> GetHouseFirstImage(long houseId)
+        {
+            var image = await _service.GetHouseFirstImageAsync(houseId);
+            return File(image, "image/jpeg");
+        }
     }
 }

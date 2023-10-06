@@ -56,9 +56,10 @@ namespace HouseApi.Repository
 
         public async Task <IEnumerable<HousePropertyDto>> GetHousePropertiesAsync(long id)
         {
-            var mappings = await _context.HousePropertyMappings.Where(x => x.HouseId == id).ToListAsync();
+            var mappings = _context.HousePropertyMappings
+                .Where(x => x.HouseId == id);
 
-            var properties = await _context.HouseProperties.ToListAsync();
+            var properties = _context.HouseProperties;
 
             var houseProperties = properties.Join(mappings,
                     p => p.Id,
@@ -66,7 +67,7 @@ namespace HouseApi.Repository
                     (p, m) => new HousePropertyDto{ Id = m.PropertyId, Text = p.PropertyText }
                 );
 
-            return houseProperties;
+            return await houseProperties.ToListAsync();
         }
 
         public async Task<(List<House> houses, int notPagedCount)> GetHousesPageAsync(PaginationParameters pagination, 
@@ -109,14 +110,6 @@ namespace HouseApi.Repository
                 CheckOutDate = houseBooking.CheckOutDate.Date,
             };
 
-            /*var existingBooking = await _context.Houses
-                .Where(h => _context.Bookings
-                    .Any(b => b.HouseId == h.Id &&
-                    ((b.CheckInDate >= booking.CheckInDate && b.CheckInDate <= booking.CheckOutDate) ||
-                     (b.CheckOutDate >= booking.CheckInDate && b.CheckOutDate <= booking.CheckOutDate) ||
-                     (b.CheckInDate <= booking.CheckInDate && b.CheckOutDate >= booking.CheckOutDate)
-                     )))
-                .ToListAsync();*/
             var oldBooking = await _context.Bookings.AnyAsync(b => b.HouseId == newBooking.HouseId &&
                                                                 b.CheckInDate < newBooking.CheckOutDate &&
                                                                 b.CheckOutDate > newBooking.CheckInDate);
@@ -125,11 +118,9 @@ namespace HouseApi.Repository
             {
                 throw new InternalException("The house is already booked on these days");
             }
-            else
-            {
-                await _context.Bookings.AddAsync(newBooking);
-                await _context.SaveChangesAsync();
-            }
+            
+            await _context.Bookings.AddAsync(newBooking);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<HouseBooking>> GetHouseBookingsAsync(long id)
