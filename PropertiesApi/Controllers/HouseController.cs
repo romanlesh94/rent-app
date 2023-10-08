@@ -87,19 +87,26 @@ namespace HouseApi.Controllers
             return Ok("The image has been added!");
         }
 
-        [HttpGet("getHouseImages")]
+        [HttpGet("getHouseImages/{houseId}")]
         public async Task<IActionResult> GetHouseImagesAsync(long houseId)
         {
             var images = await _service.GetHouseImagesAsync(houseId);
 
-            return Ok(images);
+            var fileImages = new List<FileContentResult>();
+
+            foreach(var image in images)
+            {
+                fileImages.Add(File(image, "image/jpeg"));
+            }
+
+            return Ok(fileImages);
         }
 
-        [HttpGet("getHouseFirstImage")]
+        [HttpGet("getHouseFirstImage/{houseId}")]
         public async Task<IActionResult> GetHouseFirstImage(long houseId)
         {
-            var image = await _service.GetHouseFirstImageAsync(houseId);
-            return File(image, "image/jpeg");
+            var result = await _service.GetHouseFirstImageAsync(houseId);
+            return File(result, "image/jpeg");
         }
     }
 }

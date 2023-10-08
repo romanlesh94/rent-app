@@ -150,7 +150,7 @@
       "SwaggerKey": "house"
     },
     {
-      "DownstreamPathTemplate": "/api/House/getHouseImages",
+      "DownstreamPathTemplate": "/api/House/getHouseImages/{houseId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -158,12 +158,12 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/getHouseImages",
+      "UpstreamPathTemplate": "/getHouseImages/{houseId}",
       "UpstreamHttpMethod": [ "GET" ],
       "SwaggerKey": "house"
     },
     {
-      "DownstreamPathTemplate": "/api/House/getHouseFirstImage",
+      "DownstreamPathTemplate": "/api/House/getHouseFirstImage/{houseId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -171,7 +171,7 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/getHouseFirstImage",
+      "UpstreamPathTemplate": "/getHouseFirstImage/{houseId}",
       "UpstreamHttpMethod": [ "GET" ],
       "SwaggerKey": "house"
     }

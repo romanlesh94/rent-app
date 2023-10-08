@@ -1,6 +1,8 @@
-﻿namespace PersonApi.Models
+﻿using PersonApi.Entities;
+
+namespace PersonApi.Models
 {
-    public class AuthToken
+    public class AuthToken: BaseEntity
     {
         public string Token { get; set; }
     }

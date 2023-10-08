@@ -174,12 +174,24 @@ namespace HouseApi.Services
 
         public async Task<List<byte[]>> GetHouseImagesAsync(long houseId)
         {
-            return await _imageRepository.GetHouseImagesAsync(houseId);
+            var images = await _imageRepository.GetHouseImagesAsync(houseId);
+
+            if(images == null)
+            {
+                throw new NotFoundException("This house has no images");
+            }
+
+            return images;
         }
 
         public async Task<byte[]> GetHouseFirstImageAsync(long houseId)
         {
             var image = await _imageRepository.GetHouseFirstImageAsync(houseId);
+
+            if(image == null)
+            {
+                throw new NotFoundException("This house has no images");
+            }
 
             return image.Data;
         }

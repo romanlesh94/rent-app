@@ -28,6 +28,7 @@ namespace PersonApi.Services
 
         }
 
+        //public async Task<(AuthToken, long)> LogInAsync(LoginDto loginDto)
         public async Task<AuthToken> LogInAsync(LoginDto loginDto)
         {
             var person = await _personRepository.GetPersonAsync(loginDto.Login);
@@ -46,7 +47,8 @@ namespace PersonApi.Services
 
             AuthToken authToken = new AuthToken
             {
-                Token = token
+                Token = token,
+                Id = person.Id
             };
 
             return authToken;
@@ -78,6 +80,7 @@ namespace PersonApi.Services
             AuthToken authToken = new AuthToken
             {
                 Token = token,
+                Id = person.Id
             };
 
             return authToken;
