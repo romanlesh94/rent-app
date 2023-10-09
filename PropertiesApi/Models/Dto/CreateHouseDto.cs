@@ -24,6 +24,9 @@ namespace HouseApi.Models.Dto
 
         [Required]
         public int Price { get; set; }
+
         public List<int> Properties { get; set; }
+
+        public long OwnerId { get; set; }
     }
 }

@@ -21,5 +21,9 @@ namespace PersonApi.Models.Dto
         [Required(AllowEmptyStrings = false)]
         [StringLength(100)]
         public string Country { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
+        [StringLength(30)]
+        public string PhoneNumber { get; set; }
     }
 }

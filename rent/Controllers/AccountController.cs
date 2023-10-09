@@ -34,5 +34,13 @@ namespace PersonApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("getPerson/{id}")]
+        public async Task<IActionResult> GetPersonByIdAsync(long id)
+        {
+            var result = await _service.GetPersonByIdAsync(id);
+
+            return Ok(result);
+        }
+
     }
 }

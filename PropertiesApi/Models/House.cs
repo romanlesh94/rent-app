@@ -22,5 +22,8 @@ namespace HouseApi.Models
 
         [Required]
         public int Price { get; set; }
+
+        [Required]
+        public long OwnerId { get; set; }
     }
 }

@@ -44,6 +44,7 @@ namespace HouseApi.Services
                 Rules = createHouseDto.Rules.Trim(),
                 Address = createHouseDto.Address.Trim(),
                 Price = createHouseDto.Price,
+                OwnerId = createHouseDto.OwnerId,
             };
 
             await _houseRepository.AddHouseAsync(newHouse);

@@ -28,7 +28,6 @@ namespace PersonApi.Services
 
         }
 
-        //public async Task<(AuthToken, long)> LogInAsync(LoginDto loginDto)
         public async Task<AuthToken> LogInAsync(LoginDto loginDto)
         {
             var person = await _personRepository.GetPersonAsync(loginDto.Login);
@@ -71,6 +70,7 @@ namespace PersonApi.Services
                 Password = passwordHash,
                 Email = signUpDto.Email.Trim(),
                 Country = signUpDto.Country.Trim(),
+                PhoneNumber = signUpDto.PhoneNumber.Trim()
             };
 
             await _personRepository.AddPersonAsync(person);
@@ -104,6 +104,18 @@ namespace PersonApi.Services
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             return encodedJwt;
+        }
+
+        public async Task<Person> GetPersonByIdAsync(long id)
+        {
+            var person = await _personRepository.GetPersonByIdAsync(id);
+
+            if(person == null)
+            {
+                throw new NotFoundException("User doesn't exist");
+            }
+
+            return person;
         }
         
     }
