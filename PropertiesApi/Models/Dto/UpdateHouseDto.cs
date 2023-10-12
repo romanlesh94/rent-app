@@ -2,7 +2,7 @@
 
 namespace HouseApi.Models.Dto
 {
-    public class UpdateHouseDto
+    public class UpdateHouseDto: BaseEntity
     {
         [Required(AllowEmptyStrings = false)]
         [StringLength(100)]

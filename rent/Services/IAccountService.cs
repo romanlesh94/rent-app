@@ -10,5 +10,6 @@ namespace PersonApi.Services
         Task<AuthToken> LogInAsync(LoginDto loginDto);
         Task<AuthToken> SignUpAsync(SignUpDto signUpDto);
         Task<Person> GetPersonByIdAsync(long id);
+        Task UpdatePersonAsync(UpdatePersonDto person);
     }
 }

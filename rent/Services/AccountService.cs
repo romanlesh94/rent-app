@@ -117,6 +117,24 @@ namespace PersonApi.Services
 
             return person;
         }
+
+        public async Task UpdatePersonAsync(UpdatePersonDto person)
+        {
+            var existingPerson = await _personRepository.GetPersonByIdAsync(person.Id);
+
+            if(existingPerson == null)
+            {
+                throw new NotFoundException("User doesn't exist");
+            }
+
+            existingPerson.Login = person.Login;
+            existingPerson.Email = person.Email;
+            existingPerson.PhoneNumber = person.PhoneNumber;
+            existingPerson.Country = person.Country;
+
+
+            await _personRepository.UpdatePersonAsync(existingPerson);
+        }
         
     }
 }

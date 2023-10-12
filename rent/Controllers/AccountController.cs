@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PersonApi.Entities;
 using PersonApi.Entities.Exceptions;
 using PersonApi.Models.Dto;
 using PersonApi.Services;
@@ -42,5 +43,12 @@ namespace PersonApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("updatePerson")]
+        public async Task<IActionResult> UpdatePersonAsync(UpdatePersonDto person)
+        {
+            await _service.UpdatePersonAsync(person);
+
+            return Ok("The user has been updated");
+        }
     }
 }

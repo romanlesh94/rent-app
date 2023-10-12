@@ -30,6 +30,19 @@
       "SwaggerKey": "person"
     },
     {
+      "DownstreamPathTemplate": "/api/Account/updatePerson",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/updatePerson",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "person"
+    },
+    {
       "DownstreamPathTemplate": "/api/Account/getPerson/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -82,7 +95,7 @@
       "SwaggerKey": "house"
     },
     {
-      "DownstreamPathTemplate": "/api/House/deleteHouse",
+      "DownstreamPathTemplate": "/api/House/deleteHouse/{houseId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -90,7 +103,7 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/deleteHouse",
+      "UpstreamPathTemplate": "/deleteHouse/{houseId}",
       "UpstreamHttpMethod": [ "DELETE" ],
       "SwaggerKey": "house"
     },
@@ -186,6 +199,38 @@
       ],
       "UpstreamPathTemplate": "/getHouseFirstImage/{houseId}",
       "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/getHousesByOwner/{ownerId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/getHousesByOwner/{ownerId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/getBookingsByGuest/{guestId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/getBookingsByGuest/{guestId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
       "SwaggerKey": "house"
     }
   ],

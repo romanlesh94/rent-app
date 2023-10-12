@@ -14,7 +14,7 @@ namespace HouseApi.Services
         Task<House> CreateHouseAsync(CreateHouseDto createHouseDto);
         Task<PagedList<House>> GetAllHousesAsync(PaginationParameters pagination, HouseSearchOptions houseSearchOptions);
         Task UpdateHouseAsync(UpdateHouseDto updateHouseDto);
-        Task DeleteHouseAsync(DeleteHouseDto deleteHouseDto);
+        Task DeleteHouseAsync(long houseId);
         Task<HousePageDto> GetHouseWithPropertiesAsync(long id);
         Task<List<Property>> GetHousePropertiesAsync();
         Task AddHouseBookingAsync(AddHouseBookingDto addHouseBooking);
@@ -22,5 +22,7 @@ namespace HouseApi.Services
         Task AddHouseImageAsync(long houseId, IFormFile file);
         Task<List<byte[]>> GetHouseImagesAsync(long houseId);
         Task<byte[]> GetHouseFirstImageAsync(long houseId);
+        Task<List<House>> GetHousesByOwnerAsync(long ownerId);
+        Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId);
     }
 }

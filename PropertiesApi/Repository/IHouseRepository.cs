@@ -23,5 +23,7 @@ namespace HouseApi.Repository
         Task AddHousePropertyAsync(HousePropertyMapping property);
         Task AddHouseBookingAsync(HouseBooking houseBooking);
         Task<List<HouseBooking>> GetHouseBookingsAsync(long id);
+        Task<List<House>> GetHousesByOwnerAsync(long ownerId);
+        Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId);
     }
 }

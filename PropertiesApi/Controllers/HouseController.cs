@@ -59,10 +59,10 @@ namespace HouseApi.Controllers
             await _service.UpdateHouseAsync(updateHouseDto);
             return Ok("The house has been updated!");
         }
-        [HttpDelete("deleteHouse")]
-        public async Task<IActionResult> DeleteHouseAsync(DeleteHouseDto deleteHouseDto)
+        [HttpDelete("deleteHouse/{houseId}")]
+        public async Task<IActionResult> DeleteHouseAsync(long houseId)
         {
-            await _service.DeleteHouseAsync(deleteHouseDto);
+            await _service.DeleteHouseAsync(houseId);
             return Ok("The house has been deleted!");
         }
 
@@ -107,6 +107,22 @@ namespace HouseApi.Controllers
         {
             var result = await _service.GetHouseFirstImageAsync(houseId);
             return File(result, "image/jpeg");
+        }
+
+        [HttpGet("getHousesByOwner/{ownerId}")]
+        public async Task<IActionResult> GetHousesByOwnerAsync(long ownerId)
+        {
+            var result = await _service.GetHousesByOwnerAsync(ownerId);
+
+            return Ok(result);
+        }
+
+        [HttpGet("getBookingsByGuest/{guestId}")]
+        public async Task<IActionResult> GetBookingsByGuestAsync(long guestId)
+        {
+            var result = await _service.GetBookingsByGuestAsync(guestId);
+
+            return Ok(result);
         }
     }
 }

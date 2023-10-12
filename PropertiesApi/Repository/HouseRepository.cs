@@ -128,5 +128,33 @@ namespace HouseApi.Repository
             return await _context.Bookings.Where(b => b.HouseId == id).ToListAsync();
         }
 
+        public async Task <List<House>> GetHousesByOwnerAsync(long ownerId)
+        {
+            return await _context.Houses.Where(h => h.OwnerId == ownerId).ToListAsync();
+        }
+
+
+        public async Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId)
+        {
+            var houses = _context.Houses;
+            var bookings = _context.Bookings
+                .Join(houses,
+                    b => b.HouseId,
+                    h => h.Id,
+                    (b, h) => new GuestBookingDto
+                    {
+                        CheckInDate = b.CheckInDate,
+                        CheckOutDate = b.CheckOutDate,
+                        GuestId = b.GuestId,
+                        HouseId = b.HouseId,
+                        Price = b.Price,
+                        HouseName = h.Name,
+                        HouseAddress = h.Address
+                    }
+                )
+                .Where(b => b.GuestId == guestId);
+
+            return await bookings.ToListAsync();
+        }
     }
 }

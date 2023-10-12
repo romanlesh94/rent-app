@@ -75,7 +75,7 @@ namespace HouseApi.Services
         public async Task UpdateHouseAsync(UpdateHouseDto updateHouseDto)
         {
 
-            var house = await _houseRepository.GetHouseByNameAsync(updateHouseDto.Name);
+            var house = await _houseRepository.GetHouseByIdAsync(updateHouseDto.Id);
 
             if (house == null)
             {
@@ -105,9 +105,9 @@ namespace HouseApi.Services
             return new HousePageDto (house, properties);
         }
 
-        public async Task DeleteHouseAsync(DeleteHouseDto deleteHouseDto)
+        public async Task DeleteHouseAsync(long houseId)
         {
-            var house = await _houseRepository.GetHouseByNameAsync(deleteHouseDto.Name);
+            var house = await _houseRepository.GetHouseByIdAsync(houseId);
 
             if (house == null)
             {
@@ -196,5 +196,16 @@ namespace HouseApi.Services
 
             return image.Data;
         }
+
+        public async Task<List<House>> GetHousesByOwnerAsync(long ownerId)
+        {
+            return await _houseRepository.GetHousesByOwnerAsync(ownerId);
+        }
+
+        public async Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId)
+        {
+            return await _houseRepository.GetBookingsByGuestAsync(guestId);
+        }
+
     }
 }
