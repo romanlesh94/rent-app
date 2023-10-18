@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PersonApi.Entities;
@@ -19,13 +20,14 @@ namespace PersonApi.Services
     {
         private readonly IPersonRepository _personRepository;
         private readonly IConfiguration _config;
+        private readonly ITwilioService _twilioService;
 
 
-        public AccountService(IPersonRepository personRepository, IConfiguration config)
+        public AccountService(IPersonRepository personRepository, IConfiguration config, ITwilioService twilioService)
         {
             _personRepository = personRepository;
             _config = config;
-
+            _twilioService = twilioService;
         }
 
         public async Task<AuthToken> LogInAsync(LoginDto loginDto)
@@ -53,7 +55,7 @@ namespace PersonApi.Services
             return authToken;
         }   
 
-        public async Task<AuthToken> SignUpAsync(SignUpDto signUpDto)
+        public async Task<long> SignUpAsync(SignUpDto signUpDto)
         {
             var dbPerson = await _personRepository.GetPersonAsync(signUpDto.Login);
 
@@ -70,10 +72,66 @@ namespace PersonApi.Services
                 Password = passwordHash,
                 Email = signUpDto.Email.Trim(),
                 Country = signUpDto.Country.Trim(),
+                PhoneNumber = signUpDto.PhoneNumber.Trim(),
+                IsPhoneVerified = false
+            };
+
+            Random random = new Random();
+            int code = random.Next(1000, 10000);
+
+            var sms = new SmsDto
+            {
+                Message = $"Hello! Your verification code is {code}",
                 PhoneNumber = signUpDto.PhoneNumber.Trim()
             };
 
+            await _twilioService.SendSmsAsync(sms);
+
             await _personRepository.AddPersonAsync(person);
+
+            var createdPerson = await _personRepository.GetPersonAsync(person.Login);
+
+            var verification = new PhoneVerification
+            {
+                PersonId = createdPerson.Id,
+                Code = code.ToString(),
+                CreatedDate = DateTime.UtcNow,
+                IsVerified = false, 
+            };
+
+            await _personRepository.AddPhoneVerificationAsync(verification);
+
+            return createdPerson.Id;
+
+           /* var token = GenerateToken(person.Login, person.Id);
+
+            AuthToken authToken = new AuthToken
+            {
+                Token = token,
+                Id = person.Id
+            };
+
+            return authToken;*/
+        }
+
+        public async Task<AuthToken> VerifyPhoneNumber(CheckSmsCodeDto checkSmsCodeDto)
+        {
+            var person = await _personRepository.GetPersonByIdAsync(checkSmsCodeDto.PersonId);
+
+            if (person == null) { throw new NotFoundException("This user doesn't exist!"); };
+
+            var verification = await _personRepository.GetPhoneVerification(checkSmsCodeDto.PersonId);
+
+            if (verification.Code != checkSmsCodeDto.Code)
+            {
+                throw new InternalException("The code you have sent is incorrect!");
+            }
+
+            verification.IsVerified = true;
+            person.IsPhoneVerified = true;
+
+            await _personRepository.UpdatePhoneVerification(verification);
+            await _personRepository.UpdatePersonAsync(person);
 
             var token = GenerateToken(person.Login, person.Id);
 

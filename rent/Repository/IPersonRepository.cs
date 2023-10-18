@@ -1,4 +1,5 @@
 ﻿using PersonApi.Entities;
+using PersonApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,8 @@ namespace PersonApi.Repository
         Task<Person> GetPersonAsync(string login);
         Task UpdatePersonAsync(Person person);
         Task DeletePersonAsync(Person person);
+        Task AddPhoneVerificationAsync(PhoneVerification phoneVerification);
+        Task<PhoneVerification> GetPhoneVerification(long personId);
+        Task UpdatePhoneVerification(PhoneVerification phoneVerification);
     }
 }

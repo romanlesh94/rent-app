@@ -3,6 +3,6 @@
     public class CheckSmsCodeDto
     {
         public string Code { get; set; }
-        public string PhoneNumber { get; set; }
+        public long PersonId { get; set; }
     }
 }

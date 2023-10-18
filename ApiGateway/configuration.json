@@ -30,6 +30,19 @@
       "SwaggerKey": "person"
     },
     {
+      "DownstreamPathTemplate": "/api/Account/verifyPhoneNumber",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/verifyPhoneNumber",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "person"
+    },
+    {
       "DownstreamPathTemplate": "/api/Account/updatePerson",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -150,6 +163,22 @@
       "SwaggerKey": "house"
     },
     {
+      "DownstreamPathTemplate": "/api/House/cancelBooking/{bookingId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/cancelBooking/{bookingId}",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "SwaggerKey": "house"
+    },
+    {
       "DownstreamPathTemplate": "/api/House/getHouseBookings",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -163,7 +192,7 @@
       "SwaggerKey": "house"
     },
     {
-      "DownstreamPathTemplate": "/api/House/addHouseImage",
+      "DownstreamPathTemplate": "/api/House/addHouseImage/{houseId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -171,7 +200,7 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/addHouseImage",
+      "UpstreamPathTemplate": "/addHouseImage/{houseId}",
       "UpstreamHttpMethod": [ "POST" ],
       "SwaggerKey": "house"
     },

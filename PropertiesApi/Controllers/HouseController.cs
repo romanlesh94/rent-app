@@ -73,6 +73,13 @@ namespace HouseApi.Controllers
             return Ok("The house has been booked");
         }
 
+        [HttpDelete("cancelBooking/{bookingId}")]
+        public async Task<IActionResult> CancelBookingAsync(long bookingId)
+        {
+            await _service.DeleteBookingAsync(bookingId);
+            return Ok("The booking has been canceled");
+        }
+
         [HttpGet("getHouseBookings")]
         public async Task<IActionResult> GetHouseBookingsAsync(long id)
         {
@@ -80,7 +87,7 @@ namespace HouseApi.Controllers
             return Ok(bookings);
         }
 
-        [HttpPost("addHouseImage")]
+        [HttpPost("addHouseImage/{houseId}")]
         public async Task<IActionResult> AddHouseImageAsync(long houseId, IFormFile file)
         {
             await _service.AddHouseImageAsync(houseId, file);

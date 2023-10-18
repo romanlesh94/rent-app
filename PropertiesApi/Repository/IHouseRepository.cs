@@ -22,6 +22,8 @@ namespace HouseApi.Repository
         Task<List<Property>> GetHousePropertiesAsync();
         Task AddHousePropertyAsync(HousePropertyMapping property);
         Task AddHouseBookingAsync(HouseBooking houseBooking);
+        Task DeleteHouseBookingAsync(HouseBooking booking);
+        Task<HouseBooking> GetBookingByIdAsync(long bookingId);
         Task<List<HouseBooking>> GetHouseBookingsAsync(long id);
         Task<List<House>> GetHousesByOwnerAsync(long ownerId);
         Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId);

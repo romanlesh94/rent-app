@@ -35,6 +35,13 @@ namespace PersonApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("verifyPhoneNumber")]
+        public async Task<IActionResult> VerifyPhoneNumberAsync(CheckSmsCodeDto checkSmsCodeDto)
+        {
+            var result = await _service.VerifyPhoneNumber(checkSmsCodeDto);
+            return Ok(result);
+        }
+
         [HttpGet("getPerson/{id}")]
         public async Task<IActionResult> GetPersonByIdAsync(long id)
         {

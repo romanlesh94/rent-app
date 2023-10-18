@@ -19,6 +19,7 @@ namespace HouseApi.Services
         Task<List<Property>> GetHousePropertiesAsync();
         Task AddHouseBookingAsync(AddHouseBookingDto addHouseBooking);
         Task<List<HouseBooking>> GetHouseBookingsAsync(long id);
+        Task DeleteBookingAsync(long bookingId);
         Task AddHouseImageAsync(long houseId, IFormFile file);
         Task<List<byte[]>> GetHouseImagesAsync(long houseId);
         Task<byte[]> GetHouseFirstImageAsync(long houseId);

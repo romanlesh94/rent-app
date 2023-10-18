@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using PersonApi.Entities;
 using PersonApi.Entities.Settings;
+using PersonApi.Models;
 
 namespace PersonApi.Repository
 {
@@ -15,6 +16,7 @@ namespace PersonApi.Repository
         }
 
         public DbSet<Person> People { get; set; }
+        public DbSet<PhoneVerification> PhoneVerificationTable { get; set; }
 
         public PersonDbContext() : base()
         {

@@ -8,6 +8,7 @@ namespace PersonApi.Extensions
         public static void AddAccountService(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ITwilioService, TwilioService>();
         }
     }
 }

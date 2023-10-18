@@ -25,5 +25,7 @@ namespace PersonApi.Entities
         [Required(AllowEmptyStrings = false)]
         [StringLength(30)]
         public string PhoneNumber { get; set; }
+
+        public bool IsPhoneVerified { get; set; }
     }
 }

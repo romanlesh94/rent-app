@@ -2,7 +2,7 @@
 
 namespace HouseApi.Models.Dto
 {
-    public class GuestBookingDto
+    public class GuestBookingDto: BaseEntity
     {
         public long HouseId { get; set; }
         public long GuestId { get; set; }

@@ -123,6 +123,16 @@ namespace HouseApi.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<HouseBooking> GetBookingByIdAsync(long bookingId)
+        {
+            return await _context.Bookings.FindAsync(bookingId);
+        }
+        public async Task DeleteHouseBookingAsync(HouseBooking booking)
+        {
+            _context.Bookings.Remove(booking);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<HouseBooking>> GetHouseBookingsAsync(long id)
         {
             return await _context.Bookings.Where(b => b.HouseId == id).ToListAsync();
@@ -143,6 +153,7 @@ namespace HouseApi.Repository
                     h => h.Id,
                     (b, h) => new GuestBookingDto
                     {
+                        Id = b.Id,
                         CheckInDate = b.CheckInDate,
                         CheckOutDate = b.CheckOutDate,
                         GuestId = b.GuestId,

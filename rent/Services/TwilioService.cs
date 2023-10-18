@@ -7,7 +7,7 @@ using Twilio.Rest.Verify.V2.Service;
 
 namespace PersonApi.Services
 {
-    public class TwilioService
+    public class TwilioService : ITwilioService
     {
         private readonly IConfiguration _config;
 
@@ -28,22 +28,6 @@ namespace PersonApi.Services
                 from: new Twilio.Types.PhoneNumber(_config["Twilio:fromPhoneNumber"]),
                 to: new Twilio.Types.PhoneNumber(smsDto.PhoneNumber)
             );
-        }
-
-        public async Task<string> CheckSmsCodeAsync(CheckSmsCodeDto checkSmsCodeDto)
-        {
-            string accountSid = _config["Twilio:accountSid"];
-            string authToken = _config["Twilio:authToken"];
-
-            TwilioClient.Init(accountSid, authToken);
-
-            var verificationCheck = await VerificationCheckResource.CreateAsync(
-                to: checkSmsCodeDto.PhoneNumber,
-                code: checkSmsCodeDto.Code,
-                pathServiceSid: accountSid
-            );
-
-            return verificationCheck.Status;
         }
     }
 }

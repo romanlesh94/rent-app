@@ -136,6 +136,18 @@ namespace HouseApi.Services
             await _houseRepository.AddHouseBookingAsync(houseBooking);
         }
 
+        public async Task DeleteBookingAsync(long bookingId)
+        {
+            var booking = await _houseRepository.GetBookingByIdAsync(bookingId);
+
+            if(booking == null)
+            {
+                throw new NotFoundException("This booking doesn't exist");
+            }
+
+            await _houseRepository.DeleteHouseBookingAsync(booking);
+        }
+
         public async Task<List<HouseBooking>> GetHouseBookingsAsync(long id)
         {
             return await _houseRepository.GetHouseBookingsAsync(id);

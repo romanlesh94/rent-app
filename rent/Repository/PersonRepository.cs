@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonApi.Entities;
+using PersonApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,23 @@ namespace PersonApi.Repository
         public async Task DeletePersonAsync(Person person)
         {
             _context.People.Remove(person);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddPhoneVerificationAsync(PhoneVerification phoneVerification)
+        {
+            await _context.PhoneVerificationTable.AddAsync(phoneVerification);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<PhoneVerification> GetPhoneVerification(long personId)
+        {
+            return await _context.PhoneVerificationTable.FirstOrDefaultAsync(v => v.PersonId == personId);
+        }
+
+        public async Task UpdatePhoneVerification(PhoneVerification phoneVerification)
+        {
+            _context.PhoneVerificationTable.Update(phoneVerification);
             await _context.SaveChangesAsync();
         }
     }
