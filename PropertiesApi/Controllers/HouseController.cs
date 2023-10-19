@@ -131,5 +131,13 @@ namespace HouseApi.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("getHistoryByGuest/{guestId}")]
+        public async Task<IActionResult> GetHistoryByGuestAsync(long guestId)
+        {
+            var result = await _service.GetHistoryByGuestAsync(guestId);
+
+            return Ok(result);
+        }
     }
 }

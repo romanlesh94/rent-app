@@ -218,6 +218,10 @@ namespace HouseApi.Services
         {
             return await _houseRepository.GetBookingsByGuestAsync(guestId);
         }
+        public async Task<List<GuestBookingDto>> GetHistoryByGuestAsync(long guestId)
+        {
+            return await _houseRepository.GetHistoryByGuestAsync(guestId);
+        }
 
     }
 }

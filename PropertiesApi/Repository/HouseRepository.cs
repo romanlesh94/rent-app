@@ -10,6 +10,7 @@ using HouseApi.Models.Options;
 using HouseApi.Models.Dto;
 using HouseApi.Models.Booking;
 using HouseApi.Entities.Exceptions;
+using System;
 
 namespace HouseApi.Repository
 {
@@ -146,8 +147,11 @@ namespace HouseApi.Repository
 
         public async Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId)
         {
+            DateTime today = DateTime.Today;
+
             var houses = _context.Houses;
-            var bookings = _context.Bookings
+            var bookings = _context.Bookings    
+                .Where(b => b.CheckInDate >= today)
                 .Join(houses,
                     b => b.HouseId,
                     h => h.Id,
@@ -163,7 +167,36 @@ namespace HouseApi.Repository
                         HouseAddress = h.Address
                     }
                 )
-                .Where(b => b.GuestId == guestId);
+                .Where(b => b.GuestId == guestId)
+                .OrderBy(b => b.CheckInDate);
+
+            return await bookings.ToListAsync();
+        }
+
+        public async Task<List<GuestBookingDto>> GetHistoryByGuestAsync(long guestId)
+        {
+            DateTime today = DateTime.Today;
+
+            var houses = _context.Houses;
+            var bookings = _context.Bookings
+                .Where(b => b.CheckInDate < today)
+                .Join(houses,
+                    b => b.HouseId,
+                    h => h.Id,
+                    (b, h) => new GuestBookingDto
+                    {
+                        Id = b.Id,
+                        CheckInDate = b.CheckInDate,
+                        CheckOutDate = b.CheckOutDate,
+                        GuestId = b.GuestId,
+                        HouseId = b.HouseId,
+                        Price = b.Price,
+                        HouseName = h.Name,
+                        HouseAddress = h.Address
+                    }
+                )
+                .Where(b => b.GuestId == guestId)
+                .OrderBy(b => b.CheckInDate);
 
             return await bookings.ToListAsync();
         }

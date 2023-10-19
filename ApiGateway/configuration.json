@@ -261,6 +261,22 @@
         "AuthenticationProviderKey": "Bearer"
       },
       "SwaggerKey": "house"
+    },
+    {
+      "DownstreamPathTemplate": "/api/House/getHistoryByGuest/{guestId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/getHistoryByGuest/{guestId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "SwaggerKey": "house"
     }
   ],
   "SwaggerEndPoints": [

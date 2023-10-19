@@ -25,5 +25,6 @@ namespace HouseApi.Services
         Task<byte[]> GetHouseFirstImageAsync(long houseId);
         Task<List<House>> GetHousesByOwnerAsync(long ownerId);
         Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId);
+        Task<List<GuestBookingDto>> GetHistoryByGuestAsync(long guestId);
     }
 }
