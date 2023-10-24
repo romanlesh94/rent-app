@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "rentby",
+  "private_key_id": "e1e4b39794438a63314d4affbd65f4c2c2616ef5",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCIs+e+/W+HCbHC\nHCDABAIGAiAq9mCzEk7aso51WcjLiIiar/31pfrlDGhEeNJ5itNdFYLvoEIDytKW\nJ3fUmVx/Cy52i1sDqRaAXgkQqY1q8uKa2cGexjtuTAJCBeN70ycJmZY9IlSX/3qF\nedB8SqFA+3JJh+Tb9KpzYiLvmlyzWes8iBQ49sULDGbS1CsFIGZ9ykKUSuvEcHNx\nq0tiXWy7Ltb16sG0fT5nilPBmZm0opG09LkGHl+tJoMXjaI30hIT3iih3afzSDB2\ncykZHH9Z+wZJuIE/BIJ7drMhMRHCe1rqJ8MNSO2ho7bxV85DcvSsj+O+xsRwVweM\nfuExieGNAgMBAAECggEAAXOnqmeWn6CCusUBtAhW3Sl4nfwv2rb/D2OGD8j8UO0K\nRlpIICu7FmOjV9bQpWnMBNkNou3YxaGJyv5wT1mxmcfMnoWsWcWZ75MQFZU3Y0Nh\nFLPrUnxYdTtparoVSGNdrsRqzAtpSpP0ASbiB+/i9oW1GQLQc2WNydvo8xJ4mY7+\n7zdkUca3cxUztvupcxJOtM0bYTxMltA19rwwUB7Ouq3EipSlMNVC87Bm7E22GyrL\ne7rxahjY/RNh52Ppra0p62T/JHGt96y4Y0/POvY8G0pGqoT+1rajo3Fk7Ucqe4fY\nGKTq79z7TLfPIPESQmckpzcu3B47+WkxZeXWHVzLAQKBgQC+IALL37yur40Y1Aa3\nSRbshO8AZWhLUY8BDQONOmOZuAHcc1XWbiPu/LHZo4jatsaoVImYgmtCtsvRgZVK\niLDdb6lWj93RFDPEK5lZEkuXClS/kZvA6JoswZg0/CzTvq5KMs3uPg7GpmmmjzWp\nhttmMg8XfgKGmwRRB3ICgYJ9hQKBgQC4EV26rXGLZY51psGF2wXhSdg/2auE0jf3\nMdcsYyZipk2iGyghKvbQifrTmuO4yI/m+gI/B0gMEiv9Elv+0t2tFGvLp8QaDSvw\nscRHpqUctzugLHd4WkkaHBBhNSqVTIIrBPR31SRkJjimLRgjdXSX6Oh+iHTCYKn0\npbMePySuaQKBgH83VCeu0cXhWXwfg07o7Rnd6T5OnHapYBLH7nR1eWfGJBiqY+lT\nUV/8XdTPBCe03UCNMHSH79V4EvFgz9BLnmzM5nYxVa8s4WaF9doPz9yE4Sg9+gYe\nnesMrxflFOmqUVz8maash56Mg20brkB9KBk9rbN+cZo356+AV90tY28xAoGAOUU1\n+4pRpMShcZvD5MkD6FfYj+1C/52EykXYpDfpTpJd301BzCgZCUOVJlev+ON2WrB5\nGHFEinTw+NnIg93KGTscWw5E5rIodMhqwLxp7ShZxflv5qN40UXgFs67BB789TOi\neNJ5cyutPo8TTp0R/N370LrWUVBQMQ2JUKTm3dkCgYEAtHHxVXwaoJeiqFNghtvM\nCAbLJpJvohwHvkrzw+7PBabjLTvkuuvsun3hyhpEDaRwchwV0A6g85rHn5m07N9b\nT7U/UHdhNMRpGBzcTwBaurYnYa1r6I/f5N+M7V1PSVBkDgLxyLbYIXXoT6oIvZit\nUrtyJMYO9tcRGM/aaq5bEGA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "rentby@rentby.iam.gserviceaccount.com",
+  "client_id": "114951961799466509190",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rentby%40rentby.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

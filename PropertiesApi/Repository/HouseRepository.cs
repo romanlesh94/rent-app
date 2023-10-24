@@ -11,6 +11,7 @@ using HouseApi.Models.Dto;
 using HouseApi.Models.Booking;
 using HouseApi.Entities.Exceptions;
 using System;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace HouseApi.Repository
 {
@@ -139,13 +140,15 @@ namespace HouseApi.Repository
             return await _context.Bookings.Where(b => b.HouseId == id).ToListAsync();
         }
 
-        public async Task <List<House>> GetHousesByOwnerAsync(long ownerId)
+        public async Task<(List<House> houses, int notPagedCount)> GetHousesByOwnerAsync(long ownerId, PaginationParameters pagination)
         {
-            return await _context.Houses.Where(h => h.OwnerId == ownerId).ToListAsync();
+            var query = _context.Houses.Where(h => h.OwnerId == ownerId).AsQueryable();
+
+            return (await PaginationHelper.GetPagedListAsync(query, pagination), await query.CountAsync());
         }
 
 
-        public async Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId)
+        public async Task<(List<GuestBookingDto> bookings, int notPagedCount)> GetBookingsByGuestAsync(long guestId, PaginationParameters pagination)
         {
             DateTime today = DateTime.Today;
 
@@ -169,11 +172,11 @@ namespace HouseApi.Repository
                 )
                 .Where(b => b.GuestId == guestId)
                 .OrderBy(b => b.CheckInDate);
-
-            return await bookings.ToListAsync();
+            
+            return (await PaginationHelper.GetPagedListAsync(bookings, pagination), await bookings.CountAsync());
         }
 
-        public async Task<List<GuestBookingDto>> GetHistoryByGuestAsync(long guestId)
+        public async Task<(List<GuestBookingDto> bookings, int notPagedCount)> GetHistoryByGuestAsync(long guestId, PaginationParameters pagination)
         {
             DateTime today = DateTime.Today;
 
@@ -198,7 +201,7 @@ namespace HouseApi.Repository
                 .Where(b => b.GuestId == guestId)
                 .OrderBy(b => b.CheckInDate);
 
-            return await bookings.ToListAsync();
+            return (await PaginationHelper.GetPagedListAsync(bookings, pagination), await bookings.CountAsync());
         }
     }
 }

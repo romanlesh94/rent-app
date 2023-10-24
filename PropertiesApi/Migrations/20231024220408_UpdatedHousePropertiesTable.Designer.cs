@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseApi.Migrations
 {
     [DbContext(typeof(HouseDbContext))]
-    [Migration("20231005171043_AddedImageTable")]
-    partial class AddedImageTable
+    [Migration("20231024220408_UpdatedHousePropertiesTable")]
+    partial class UpdatedHousePropertiesTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,9 @@ namespace HouseApi.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<long>("OwnerId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
@@ -106,62 +109,6 @@ namespace HouseApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HousePropertyMappings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            HouseId = 1L,
-                            PropertyId = 2L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            HouseId = 1L,
-                            PropertyId = 3L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            HouseId = 1L,
-                            PropertyId = 5L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            HouseId = 2L,
-                            PropertyId = 2L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            HouseId = 2L,
-                            PropertyId = 13L
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            HouseId = 2L,
-                            PropertyId = 11L
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            HouseId = 3L,
-                            PropertyId = 10L
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            HouseId = 3L,
-                            PropertyId = 9L
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            HouseId = 3L,
-                            PropertyId = 7L
-                        });
                 });
 
             modelBuilder.Entity("HouseApi.Models.Image", b =>
@@ -172,12 +119,12 @@ namespace HouseApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<long>("HouseId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

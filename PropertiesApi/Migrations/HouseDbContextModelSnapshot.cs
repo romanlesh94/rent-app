@@ -106,62 +106,6 @@ namespace HouseApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HousePropertyMappings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            HouseId = 1L,
-                            PropertyId = 2L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            HouseId = 1L,
-                            PropertyId = 3L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            HouseId = 1L,
-                            PropertyId = 5L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            HouseId = 2L,
-                            PropertyId = 2L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            HouseId = 2L,
-                            PropertyId = 13L
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            HouseId = 2L,
-                            PropertyId = 11L
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            HouseId = 3L,
-                            PropertyId = 10L
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            HouseId = 3L,
-                            PropertyId = 9L
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            HouseId = 3L,
-                            PropertyId = 7L
-                        });
                 });
 
             modelBuilder.Entity("HouseApi.Models.Image", b =>
@@ -172,12 +116,12 @@ namespace HouseApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<long>("HouseId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

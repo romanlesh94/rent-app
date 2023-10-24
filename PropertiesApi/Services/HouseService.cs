@@ -1,4 +1,6 @@
-﻿using HouseApi.Entities.Exceptions;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
+using HouseApi.Entities.Exceptions;
 using HouseApi.Models;
 using HouseApi.Models.Booking;
 using HouseApi.Models.Dto;
@@ -7,6 +9,7 @@ using HouseApi.Models.Options;
 using HouseApi.Models.Pagination;
 using HouseApi.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,11 +22,13 @@ namespace HouseApi.Services
     {
         private readonly IHouseRepository _houseRepository;
         private readonly IImageRepository _imageRepository;
+        private readonly IConfiguration _config;
 
-        public HouseService(IHouseRepository houseRepository, IImageRepository imageRepository)
+        public HouseService(IHouseRepository houseRepository, IImageRepository imageRepository, IConfiguration config)
         {
             _houseRepository = houseRepository;
             _imageRepository = imageRepository;
+            _config = config;
         }
 
         private const long FileMaxSize = 5242880;
@@ -172,20 +177,29 @@ namespace HouseApi.Services
                 throw new InternalException("File length is 0");
             }
 
-            using var memoryStream = new MemoryStream();
+            var storageClient = await StorageClient.CreateAsync(GoogleCredential.FromFile(_config.GetValue<string>("GoogleCredentialFile")));
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string objectName = $"images/{fileName}";
 
-            await file.CopyToAsync(memoryStream);
+            using (var imageMemoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(imageMemoryStream);
+                imageMemoryStream.Position = 0;
+                await storageClient.UploadObjectAsync(_config["GoogleCloudStorageBucket"], objectName, null, imageMemoryStream);
+            }
+
+            var storageObject = await storageClient.GetObjectAsync(_config["GoogleCloudStorageBucket"], objectName);
 
             var image = new Image
             {
                 House = house,
-                Data = memoryStream.ToArray(),
+                ImageUrl = storageObject.MediaLink,
             };
 
             await _imageRepository.AddHouseImageAsync(image);
         }
 
-        public async Task<List<byte[]>> GetHouseImagesAsync(long houseId)
+        public async Task<List<string>> GetHouseImagesAsync(long houseId)
         {
             var images = await _imageRepository.GetHouseImagesAsync(houseId);
 
@@ -197,7 +211,7 @@ namespace HouseApi.Services
             return images;
         }
 
-        public async Task<byte[]> GetHouseFirstImageAsync(long houseId)
+        public async Task<string> GetHouseFirstImageAsync(long houseId)
         {
             var image = await _imageRepository.GetHouseFirstImageAsync(houseId);
 
@@ -206,21 +220,27 @@ namespace HouseApi.Services
                 throw new NotFoundException("This house has no images");
             }
 
-            return image.Data;
+            return image.ImageUrl;
         }
 
-        public async Task<List<House>> GetHousesByOwnerAsync(long ownerId)
+        public async Task<PagedList<House>> GetHousesByOwnerAsync(long ownerId, PaginationParameters pagination)
         {
-            return await _houseRepository.GetHousesByOwnerAsync(ownerId);
+            var houses = await _houseRepository.GetHousesByOwnerAsync(ownerId, pagination);
+
+            return new PagedList<House>(houses.houses, houses.notPagedCount, pagination);
         }
 
-        public async Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId)
+        public async Task<PagedList<GuestBookingDto>> GetBookingsByGuestAsync(long guestId, PaginationParameters pagination)
         {
-            return await _houseRepository.GetBookingsByGuestAsync(guestId);
+            var bookings = await _houseRepository.GetBookingsByGuestAsync(guestId, pagination);
+
+            return new PagedList<GuestBookingDto>(bookings.bookings, bookings.notPagedCount, pagination);
         }
-        public async Task<List<GuestBookingDto>> GetHistoryByGuestAsync(long guestId)
+        public async Task<PagedList<GuestBookingDto>> GetHistoryByGuestAsync(long guestId, PaginationParameters pagination)
         {
-            return await _houseRepository.GetHistoryByGuestAsync(guestId);
+            var bookings = await _houseRepository.GetHistoryByGuestAsync(guestId, pagination);
+
+            return new PagedList<GuestBookingDto>(bookings.bookings, bookings.notPagedCount, pagination);
         }
 
     }

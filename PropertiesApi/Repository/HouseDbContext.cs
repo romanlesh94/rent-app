@@ -54,18 +54,6 @@ namespace HouseApi.Repository
 
             modelBuilder.Entity<Property>().HasData(property1, property2, property3, property4, property5,
                 property6, property7, property8, property9, property10, property11, property12, property13, property14, property15);
-
-            HousePropertyMapping housePropertyMapping1 = new HousePropertyMapping { Id = 1, HouseId = 1, PropertyId = 2};
-            HousePropertyMapping housePropertyMapping2 = new HousePropertyMapping { Id = 2, HouseId = 1, PropertyId = 3};
-            HousePropertyMapping housePropertyMapping3 = new HousePropertyMapping { Id = 3, HouseId = 1, PropertyId = 5};
-            HousePropertyMapping housePropertyMapping4 = new HousePropertyMapping { Id = 4, HouseId = 2, PropertyId = 2};
-            HousePropertyMapping housePropertyMapping5 = new HousePropertyMapping { Id = 5, HouseId = 2, PropertyId = 13};
-            HousePropertyMapping housePropertyMapping6 = new HousePropertyMapping { Id = 6, HouseId = 2, PropertyId = 11};
-            HousePropertyMapping housePropertyMapping7 = new HousePropertyMapping { Id = 7, HouseId = 3, PropertyId = 10};
-            HousePropertyMapping housePropertyMapping8 = new HousePropertyMapping { Id = 8, HouseId = 3, PropertyId = 9};
-            HousePropertyMapping housePropertyMapping9 = new HousePropertyMapping { Id = 9, HouseId = 3, PropertyId = 7};
-
-            modelBuilder.Entity<HousePropertyMapping>().HasData(housePropertyMapping1, housePropertyMapping2, housePropertyMapping3, housePropertyMapping4, housePropertyMapping5, housePropertyMapping6, housePropertyMapping7, housePropertyMapping8, housePropertyMapping9);
         }
     }
 }

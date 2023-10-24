@@ -25,8 +25,8 @@ namespace HouseApi.Repository
         Task DeleteHouseBookingAsync(HouseBooking booking);
         Task<HouseBooking> GetBookingByIdAsync(long bookingId);
         Task<List<HouseBooking>> GetHouseBookingsAsync(long id);
-        Task<List<House>> GetHousesByOwnerAsync(long ownerId);
-        Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId);
-        Task<List<GuestBookingDto>> GetHistoryByGuestAsync(long guestId);
+        Task<(List<House> houses, int notPagedCount)> GetHousesByOwnerAsync(long ownerId, PaginationParameters pagination);
+        Task<(List<GuestBookingDto> bookings, int notPagedCount)> GetBookingsByGuestAsync(long guestId, PaginationParameters pagination);
+        Task<(List<GuestBookingDto> bookings, int notPagedCount)> GetHistoryByGuestAsync(long guestId, PaginationParameters pagination);
     }
 }

@@ -21,10 +21,10 @@ namespace HouseApi.Services
         Task<List<HouseBooking>> GetHouseBookingsAsync(long id);
         Task DeleteBookingAsync(long bookingId);
         Task AddHouseImageAsync(long houseId, IFormFile file);
-        Task<List<byte[]>> GetHouseImagesAsync(long houseId);
-        Task<byte[]> GetHouseFirstImageAsync(long houseId);
-        Task<List<House>> GetHousesByOwnerAsync(long ownerId);
-        Task<List<GuestBookingDto>> GetBookingsByGuestAsync(long guestId);
-        Task<List<GuestBookingDto>> GetHistoryByGuestAsync(long guestId);
+        Task<List<string>> GetHouseImagesAsync(long houseId);
+        Task<string> GetHouseFirstImageAsync(long houseId);
+        Task<PagedList<House>> GetHousesByOwnerAsync(long ownerId, PaginationParameters pagination);
+        Task<PagedList<GuestBookingDto>> GetBookingsByGuestAsync(long guestId, PaginationParameters pagination);
+        Task<PagedList<GuestBookingDto>> GetHistoryByGuestAsync(long guestId, PaginationParameters pagination);
     }
 }

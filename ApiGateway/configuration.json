@@ -231,7 +231,7 @@
       "SwaggerKey": "house"
     },
     {
-      "DownstreamPathTemplate": "/api/House/getHousesByOwner/{ownerId}",
+      "DownstreamPathTemplate": "/api/House/getHousesByOwner/{ownerId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -239,7 +239,7 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/getHousesByOwner/{ownerId}",
+      "UpstreamPathTemplate": "/getHousesByOwner/{ownerId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
@@ -247,7 +247,7 @@
       "SwaggerKey": "house"
     },
     {
-      "DownstreamPathTemplate": "/api/House/getBookingsByGuest/{guestId}",
+      "DownstreamPathTemplate": "/api/House/getBookingsByGuest/{guestId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -255,7 +255,7 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/getBookingsByGuest/{guestId}",
+      "UpstreamPathTemplate": "/getBookingsByGuest/{guestId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
@@ -263,7 +263,7 @@
       "SwaggerKey": "house"
     },
     {
-      "DownstreamPathTemplate": "/api/House/getHistoryByGuest/{guestId}",
+      "DownstreamPathTemplate": "/api/House/getHistoryByGuest/{guestId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -271,7 +271,7 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/getHistoryByGuest/{guestId}",
+      "UpstreamPathTemplate": "/getHistoryByGuest/{guestId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"

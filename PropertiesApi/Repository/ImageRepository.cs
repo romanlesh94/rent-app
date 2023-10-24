@@ -28,11 +28,11 @@ namespace HouseApi.Repository
                 .FirstOrDefaultAsync(i => i.HouseId == houseId);
         }
 
-        public async Task<List<byte[]>> GetHouseImagesAsync(long houseId)
+        public async Task<List<string>> GetHouseImagesAsync(long houseId)
         {
             return await _context.Images
                 .Where(i => i.HouseId == houseId)
-                .Select(i => i.Data)
+                .Select(i => i.ImageUrl)
                 .ToListAsync();
         }
     }

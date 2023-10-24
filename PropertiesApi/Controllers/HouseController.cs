@@ -97,46 +97,49 @@ namespace HouseApi.Controllers
         [HttpGet("getHouseImages/{houseId}")]
         public async Task<IActionResult> GetHouseImagesAsync(long houseId)
         {
-            var images = await _service.GetHouseImagesAsync(houseId);
+            var result = await _service.GetHouseImagesAsync(houseId);
 
-            var fileImages = new List<FileContentResult>();
+            /*var fileImages = new List<FileContentResult>();
 
             foreach(var image in images)
             {
                 fileImages.Add(File(image, "image/jpeg"));
-            }
+            }*/
 
-            return Ok(fileImages);
+            return Ok(result);
         }
 
         [HttpGet("getHouseFirstImage/{houseId}")]
         public async Task<IActionResult> GetHouseFirstImage(long houseId)
         {
             var result = await _service.GetHouseFirstImageAsync(houseId);
-            return File(result, "image/jpeg");
-        }
-
-        [HttpGet("getHousesByOwner/{ownerId}")]
-        public async Task<IActionResult> GetHousesByOwnerAsync(long ownerId)
-        {
-            var result = await _service.GetHousesByOwnerAsync(ownerId);
-
             return Ok(result);
         }
 
-        [HttpGet("getBookingsByGuest/{guestId}")]
-        public async Task<IActionResult> GetBookingsByGuestAsync(long guestId)
+        [HttpGet("getHousesByOwner/{ownerId}/pageIndex/{pageIndex}/pageSize/{pageSize}")]
+        public async Task<IActionResult> GetHousesByOwnerAsync(long ownerId, int pageIndex, int pageSize)
         {
-            var result = await _service.GetBookingsByGuestAsync(guestId);
-
+            var pagination = new PaginationParameters(pageIndex, pageSize);
+            
+            var result = await _service.GetHousesByOwnerAsync(ownerId, pagination);
             return Ok(result);
         }
 
-        [HttpGet("getHistoryByGuest/{guestId}")]
-        public async Task<IActionResult> GetHistoryByGuestAsync(long guestId)
+        [HttpGet("getBookingsByGuest/{guestId}/pageIndex/{pageIndex}/pageSize/{pageSize}")]
+        public async Task<IActionResult> GetBookingsByGuestAsync(long guestId, int pageIndex, int pageSize)
         {
-            var result = await _service.GetHistoryByGuestAsync(guestId);
+            var pagination = new PaginationParameters(pageIndex, pageSize);
 
+            var result = await _service.GetBookingsByGuestAsync(guestId, pagination);
+            return Ok(result);
+        }
+
+        [HttpGet("getHistoryByGuest/{guestId}/pageIndex/{pageIndex}/pageSize/{pageSize}")]
+        public async Task<IActionResult> GetHistoryByGuestAsync(long guestId, int pageIndex, int pageSize)
+        {
+            var pagination = new PaginationParameters(pageIndex, pageSize);
+
+            var result = await _service.GetHistoryByGuestAsync(guestId, pagination);
             return Ok(result);
         }
     }

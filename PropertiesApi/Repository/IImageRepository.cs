@@ -8,6 +8,6 @@ namespace HouseApi.Repository
     {
         Task AddHouseImageAsync(Image image);
         Task<Image> GetHouseFirstImageAsync(long houseId);
-        Task<List<byte[]>> GetHouseImagesAsync(long houseId);
+        Task<List<string>> GetHouseImagesAsync(long houseId);
     }
 }
