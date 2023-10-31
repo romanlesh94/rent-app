@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using PersonApi.Entities;
 using PersonApi.Entities.Exceptions;
 using PersonApi.Models.Dto;
@@ -56,6 +57,13 @@ namespace PersonApi.Controllers
             await _service.UpdatePersonAsync(person);
 
             return Ok("The user has been updated");
+        }
+
+        [HttpPost("addPersonImage/{personId}")]
+        public async Task<IActionResult> AddPersonImageAsync(long personId, IFormFile file)
+        {
+            await _service.AddPersonImageAsync(personId, file);
+            return Ok("The image has been added!");
         }
     }
 }

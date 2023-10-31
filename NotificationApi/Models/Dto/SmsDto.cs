@@ -1,4 +1,4 @@
-﻿namespace PersonApi.Models.Dto
+﻿namespace NotificationApi.Models.Dto
 {
     public class SmsDto
     {

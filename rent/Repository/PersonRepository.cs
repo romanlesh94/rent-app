@@ -67,6 +67,18 @@ namespace PersonApi.Repository
             _context.PhoneVerificationTable.Update(phoneVerification);
             await _context.SaveChangesAsync();
         }
+
+        public async Task AddPersonImageAsync(PersonImage image)
+        {
+            await _context.PersonImages.AddAsync(image);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<PersonImage> GetPersonImageAsync(long personId)
+        {
+            return await _context.PersonImages.FirstOrDefaultAsync(i => i.PersonId == personId);
+        }
     }
 }
 

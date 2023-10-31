@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +13,7 @@ using PersonApi.Models.Exceptions;
 using PersonApi.Repository;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,15 +24,17 @@ namespace PersonApi.Services
     {
         private readonly IPersonRepository _personRepository;
         private readonly IConfiguration _config;
-        private readonly ITwilioService _twilioService;
+        private readonly IRabbitMqProducer _rabbitMqProducer;
 
 
-        public AccountService(IPersonRepository personRepository, IConfiguration config, ITwilioService twilioService)
+        public AccountService(IPersonRepository personRepository, IConfiguration config, IRabbitMqProducer rabbitMqProducer)
         {
             _personRepository = personRepository;
             _config = config;
-            _twilioService = twilioService;
+            _rabbitMqProducer = rabbitMqProducer;
         }
+
+        private const long FileMaxSize = 5242880;
 
         public async Task<AuthToken> LogInAsync(LoginDto loginDto)
         {
@@ -76,16 +82,17 @@ namespace PersonApi.Services
                 IsPhoneVerified = false
             };
 
+            //TODO: make a separate method
             Random random = new Random();
             int code = random.Next(1000, 10000);
 
-            var sms = new SmsDto
+            var message = new MessageDto
             {
-                Message = $"Hello! Your verification code is {code}",
-                PhoneNumber = signUpDto.PhoneNumber.Trim()
+                Code = code.ToString(),
+                PhoneNumber = signUpDto.PhoneNumber
             };
 
-            await _twilioService.SendSmsAsync(sms);
+            await _rabbitMqProducer.SendSmsMessage(message);
 
             await _personRepository.AddPersonAsync(person);
 
@@ -102,16 +109,6 @@ namespace PersonApi.Services
             await _personRepository.AddPhoneVerificationAsync(verification);
 
             return createdPerson.Id;
-
-           /* var token = GenerateToken(person.Login, person.Id);
-
-            AuthToken authToken = new AuthToken
-            {
-                Token = token,
-                Id = person.Id
-            };
-
-            return authToken;*/
         }
 
         public async Task<AuthToken> VerifyPhoneNumber(CheckSmsCodeDto checkSmsCodeDto)
@@ -144,6 +141,48 @@ namespace PersonApi.Services
             return authToken;
         }
 
+        public async Task AddPersonImageAsync(long personId, IFormFile file)
+        {
+            var person = await _personRepository.GetPersonByIdAsync(personId);
+
+            if (person == null)
+            {
+                throw new NotFoundException("Person is not found!");
+            }
+
+            if (file.Length > FileMaxSize)
+            {
+                throw new InternalException("File size is more than 5mb");
+            }
+
+            if (file.Length == 0)
+            {
+                throw new InternalException("File length is 0");
+            }
+
+            var storageClient = await StorageClient.CreateAsync(GoogleCredential.FromFile(_config.GetValue<string>("GoogleCredentialFile")));
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string objectName = $"images/{fileName}";
+
+            using (var imageMemoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(imageMemoryStream);
+                imageMemoryStream.Position = 0;
+                await storageClient.UploadObjectAsync(_config["GoogleCloudStorageBucket"], objectName, null, imageMemoryStream);
+            }
+
+            var storageObject = await storageClient.GetObjectAsync(_config["GoogleCloudStorageBucket"], objectName);
+
+            var image = new PersonImage
+            {
+                Person = person,
+                ImageUrl = storageObject.MediaLink,
+                
+            };
+
+            await _personRepository.AddPersonImageAsync(image);
+        }
+
         public string GenerateToken(string login, long id)
         {
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecretData:secretKey"]));
@@ -164,16 +203,30 @@ namespace PersonApi.Services
             return encodedJwt;
         }
 
-        public async Task<Person> GetPersonByIdAsync(long id)
+        public async Task<GetPersonDto> GetPersonByIdAsync(long id)
         {
             var person = await _personRepository.GetPersonByIdAsync(id);
 
-            if(person == null)
+            if (person == null)
             {
                 throw new NotFoundException("User doesn't exist");
             }
 
-            return person;
+            var image = await _personRepository.GetPersonImageAsync(id);
+
+            GetPersonDto getPerson = new GetPersonDto
+            {
+                Id = person.Id,
+                Country = person.Country,
+                Email = person.Email,
+                IsPhoneVerified = person.IsPhoneVerified,
+                Login = person.Login,
+                Password = person.Password,
+                PhoneNumber = person.PhoneNumber,
+                ImageUrl = image.ImageUrl
+            };
+
+            return getPerson;
         }
 
         public async Task UpdatePersonAsync(UpdatePersonDto person)

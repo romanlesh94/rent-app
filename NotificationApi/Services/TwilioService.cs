@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
-using PersonApi.Models.Dto;
+using NotificationApi.Models.Dto;
 using System.Threading.Tasks;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Rest.Verify.V2.Service;
 
-namespace PersonApi.Services
+namespace NotificationApi.Services
 {
     public class TwilioService : ITwilioService
     {
@@ -29,5 +29,7 @@ namespace PersonApi.Services
                 to: new Twilio.Types.PhoneNumber(smsDto.PhoneNumber)
             );
         }
+
+
     }
 }

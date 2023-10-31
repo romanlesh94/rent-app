@@ -1,4 +1,5 @@
-﻿using PersonApi.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using PersonApi.Entities;
 using PersonApi.Models;
 using PersonApi.Models.Dto;
 using System.Threading.Tasks;
@@ -9,8 +10,9 @@ namespace PersonApi.Services
     {
         Task<AuthToken> LogInAsync(LoginDto loginDto);
         Task<long> SignUpAsync(SignUpDto signUpDto);
-        Task<Person> GetPersonByIdAsync(long id);
+        Task<GetPersonDto> GetPersonByIdAsync(long id);
         Task UpdatePersonAsync(UpdatePersonDto person);
         Task<AuthToken> VerifyPhoneNumber(CheckSmsCodeDto checkSmsCodeDto);
+        Task AddPersonImageAsync(long personId, IFormFile file);
     }
 }

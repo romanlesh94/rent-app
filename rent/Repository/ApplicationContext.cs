@@ -17,6 +17,7 @@ namespace PersonApi.Repository
 
         public DbSet<Person> People { get; set; }
         public DbSet<PhoneVerification> PhoneVerificationTable { get; set; }
+        public DbSet<PersonImage> PersonImages { get; set; }
 
         public PersonDbContext() : base()
         {

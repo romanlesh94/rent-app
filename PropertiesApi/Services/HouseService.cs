@@ -128,7 +128,6 @@ namespace HouseApi.Services
             DateTime checkInDate = DateTime.ParseExact(addHouseBooking.CheckInDate, format, CultureInfo.InvariantCulture);
             DateTime checkOutDate = DateTime.ParseExact(addHouseBooking.CheckOutDate, format, CultureInfo.InvariantCulture);
 
-            //DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)
             HouseBooking houseBooking = new HouseBooking
             {
                 HouseId = addHouseBooking.HouseId,
