@@ -26,13 +26,9 @@ namespace ApiGateway
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var authenticationProviderKey = "Bearer";
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-               .AddJwtBearer(authenticationProviderKey, cfg =>
+            //var authenticationProviderKey = "Bearer";
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(cfg =>
                {
                    cfg.RequireHttpsMetadata = true;
                    cfg.SaveToken = true;
@@ -43,7 +39,6 @@ namespace ApiGateway
                        ValidateIssuer = false,
                        ValidateLifetime = true,
                        RequireExpirationTime = true,
-                       ClockSkew = TimeSpan.Zero,
                        ValidateIssuerSigningKey = true,
                    };
                });

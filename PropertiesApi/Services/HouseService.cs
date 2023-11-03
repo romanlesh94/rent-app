@@ -124,7 +124,7 @@ namespace HouseApi.Services
 
         public async Task AddHouseBookingAsync(AddHouseBookingDto addHouseBooking)
         {
-            string format = "MM/dd/yyyy";
+            const string format = "MM/dd/yyyy";
             DateTime checkInDate = DateTime.ParseExact(addHouseBooking.CheckInDate, format, CultureInfo.InvariantCulture);
             DateTime checkOutDate = DateTime.ParseExact(addHouseBooking.CheckOutDate, format, CultureInfo.InvariantCulture);
 

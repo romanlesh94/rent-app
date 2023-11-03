@@ -142,7 +142,7 @@ namespace HouseApi.Repository
 
         public async Task<(List<House> houses, int notPagedCount)> GetHousesByOwnerAsync(long ownerId, PaginationParameters pagination)
         {
-            var query = _context.Houses.Where(h => h.OwnerId == ownerId).AsQueryable();
+            var query = _context.Houses.Where(h => h.OwnerId == ownerId);
 
             return (await PaginationHelper.GetPagedListAsync(query, pagination), await query.CountAsync());
         }

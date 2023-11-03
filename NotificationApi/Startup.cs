@@ -47,6 +47,12 @@ namespace NotificationApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
             });
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            );
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

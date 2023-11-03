@@ -223,7 +223,7 @@ namespace PersonApi.Services
                 Login = person.Login,
                 Password = person.Password,
                 PhoneNumber = person.PhoneNumber,
-                ImageUrl = image.ImageUrl
+                ImageUrl = image != null ? image.ImageUrl : null,
             };
 
             return getPerson;
