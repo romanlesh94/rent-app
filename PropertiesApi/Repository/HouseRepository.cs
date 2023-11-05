@@ -12,6 +12,7 @@ using HouseApi.Models.Booking;
 using HouseApi.Entities.Exceptions;
 using System;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Globalization;
 
 namespace HouseApi.Repository
 {
@@ -81,6 +82,24 @@ namespace HouseApi.Repository
             {
                 return (await PaginationHelper.GetPagedListAsync(query, pagination), await query.CountAsync());
             }
+
+            if(!string.IsNullOrEmpty(houseSearchOptions.CheckInDate) && !string.IsNullOrEmpty(houseSearchOptions.CheckOutDate))
+            {
+                string format = "M/d/yyyy";
+                DateTime checkInDate = DateTime.ParseExact(houseSearchOptions.CheckInDate, format, CultureInfo.InvariantCulture);
+                DateTime checkOutDate = DateTime.ParseExact(houseSearchOptions.CheckOutDate, format, CultureInfo.InvariantCulture);
+
+                var freeHouses = _context.Houses.
+                Where(h => !_context.Bookings
+                .Any(hb => hb.HouseId == h.Id &&
+                       hb.CheckInDate <= checkOutDate &&
+                       hb.CheckOutDate >= checkInDate))
+                .OrderBy(h => h.Name);
+
+                var searchQueryWithDates = SearchHelper.BuildSearchQuery(freeHouses, houseSearchOptions);
+
+                return (await PaginationHelper.GetPagedListAsync(searchQueryWithDates, pagination), await searchQueryWithDates.CountAsync());
+            }            
 
             var searchQuery = SearchHelper.BuildSearchQuery(query, houseSearchOptions);
 

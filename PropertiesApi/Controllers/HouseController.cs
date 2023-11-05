@@ -24,7 +24,7 @@ namespace HouseApi.Controllers
         }
 
         [HttpGet("getHouses/pageIndex/{pageIndex}/pageSize/{pageSize}")]
-        public async Task<IActionResult> GetAllHousesAsync(int pageIndex, int pageSize, [FromQuery] HouseSearchOptions houseSearchOptions)
+        public async Task<IActionResult> GetAllHousesAsync(int pageIndex, int pageSize, [FromHeader] HouseSearchOptions houseSearchOptions)
         {
             var pagination = new PaginationParameters(pageIndex, pageSize);
 

@@ -26,7 +26,6 @@ namespace ApiGateway
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //var authenticationProviderKey = "Bearer";
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(cfg =>
                {
