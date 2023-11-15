@@ -8,8 +8,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "personapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/login",
@@ -21,8 +21,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "personapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/signup",
@@ -34,8 +34,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "personapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/verifyPhoneNumber",
@@ -47,8 +47,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "personapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/updatePerson",
@@ -60,8 +60,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "personapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getPerson/{id}",
@@ -73,8 +73,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "personapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/addPersonImage/{personId}",
@@ -86,8 +86,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getHouses/pageIndex/{pageIndex}/pageSize/{pageSize}",
@@ -99,8 +99,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/createHouse",
@@ -112,8 +112,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/updateHouse",
@@ -125,8 +125,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/deleteHouse/{houseId}",
@@ -138,8 +138,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getHouse/id/{id}",
@@ -151,8 +151,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getHouseProperties",
@@ -164,8 +164,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/addHouseBooking",
@@ -180,8 +180,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/cancelBooking/{bookingId}",
@@ -196,8 +196,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getHouseBookings",
@@ -209,8 +209,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/addHouseImage/{houseId}",
@@ -222,8 +222,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getHouseImages/{houseId}",
@@ -235,8 +235,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getHouseFirstImage/{houseId}",
@@ -248,8 +248,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getHousesByOwner/{ownerId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
@@ -264,8 +264,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getBookingsByGuest/{guestId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
@@ -280,8 +280,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "houseapi",
+          "Port": 5000
         }
       ],
       "UpstreamPathTemplate": "/getHistoryByGuest/{guestId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
@@ -299,7 +299,7 @@
         {
           "Name": "Person API",
           "Version": "v1",
-          "Url": "http://localhost:5002/swagger/v1/swagger.json"
+          "Url": "http://personapi:5000/swagger/v1/swagger.json"
         }
       ]
     },
@@ -309,7 +309,7 @@
         {
           "Name": "House API",
           "Version": "v1",
-          "Url": "http://localhost:5003/swagger/v1/swagger.json"
+          "Url": "http://houseapi:5000/swagger/v1/swagger.json"
         }
       ]
     }

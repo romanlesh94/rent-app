@@ -1,0 +1,112 @@
+version: '3.9'
+
+services:
+
+    house.api:
+        image: ${DOCKER_REGISTRY-}houseapi
+        build:
+            context: .
+            dockerfile: PropertiesApi/Dockerfile
+        container_name: houseapi
+        restart: on-failure
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Deployment
+            - DOTNET_URLS=http://+:5000
+        networks:
+            - app-network
+        depends_on:
+            - rabbitmq
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+            - ${HOME}/.aspnet/https:/root/.aspnet/https/
+        ports:
+            - "5003:5000"
+            
+    notification.api:
+        image: ${DOCKER_REGISTRY-}notificationapi
+        build:
+            context: .
+            dockerfile: NotificationApi/Dockerfile
+        container_name: notificationapi
+        restart: on-failure
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Deployment
+            - DOTNET_URLS=http://+:5000
+        networks:
+            - app-network
+        depends_on:
+            - rabbitmq
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+            - ${HOME}/.aspnet/https:/root/.aspnet/https/
+        ports:
+            - "5004:5000"
+    
+    apigateway:
+        image: ${DOCKER_REGISTRY-}apigateway
+        build:
+            context: .
+            dockerfile: ApiGateway/Dockerfile
+        container_name: apigateway
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Deployment
+            - DOTNET_URLS=http://+:80
+        networks:
+            - app-network
+        depends_on:
+            - house.api
+            - rabbitmq
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+            - ${HOME}/.aspnet/https:/root/.aspnet/https/
+        ports:
+            - "80:80"
+
+    personapi:
+        image: ${DOCKER_REGISTRY-}personapi
+        build:
+            context: .
+            dockerfile: rent/Dockerfile
+        container_name: personapi
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Deployment
+            - DOTNET_URLS=http://+:5000
+        networks:
+            - app-network
+        depends_on:
+            - rabbitmq
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+            - ${HOME}/.aspnet/https:/root/.aspnet/https/
+        ports:
+            - "5002:5000"
+
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq:3-management
+        ports:
+            - "4369:4369"
+            - "5671:5671"
+            - "5672:5672"
+            - "25672:25672"
+            - "15671:15671"
+            - "15672:15672"
+        networks:
+            - app-network
+    
+    mssql:
+        container_name: sql-server
+        image: mcr.microsoft.com/mssql/server:2017-latest
+        restart: always
+        environment:
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "super_secret_password_123"
+        ports:
+            - 1433:1433
+        networks:
+            - app-network
+
+
+networks:
+    app-network:
+        external: true

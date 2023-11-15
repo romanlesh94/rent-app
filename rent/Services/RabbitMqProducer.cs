@@ -13,7 +13,7 @@ namespace PersonApi.Services
         {
             var factory = new ConnectionFactory
             {
-                HostName = "localhost",
+                HostName = "rabbitmq",
                 Port = 5672,
                 UserName = "guest",
                 Password = "guest",
