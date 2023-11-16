@@ -16,17 +16,19 @@ namespace NotificationApi.Services
             _config = config;
         }
 
-        public async Task SendSmsAsync(SmsDto smsDto)
+        public void SendSms(MessageDto messageDto)
         {
             string accountSid = _config["Twilio:accountSid"];
             string authToken = _config["Twilio:authToken"];
 
+            var body = $"Hello! Your verification code is {messageDto.Code}";
+
             TwilioClient.Init(accountSid, authToken);
 
-            var message = await MessageResource.CreateAsync(
-                body: smsDto.Message,
+            var message = MessageResource.Create(
+                body: body,
                 from: new Twilio.Types.PhoneNumber(_config["Twilio:fromPhoneNumber"]),
-                to: new Twilio.Types.PhoneNumber(smsDto.PhoneNumber)
+                to: new Twilio.Types.PhoneNumber(messageDto.PhoneNumber)
             );
         }
 

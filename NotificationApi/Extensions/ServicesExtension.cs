@@ -7,7 +7,7 @@ namespace NotificationApi.Extensions
     {
         public static void AddNotificationServices(this IServiceCollection services)
         {
-            services.AddScoped<ITwilioService, TwilioService>();
+            services.AddSingleton<ITwilioService, TwilioService>();
             services.AddSingleton<IRabbitMqConsumer, RabbitMqConsumer>();
         }
     }

@@ -6,6 +6,7 @@ using NotificationApi.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Data.Common;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -16,30 +17,30 @@ namespace NotificationApi.Services
 {
     public class RabbitMqConsumer : IRabbitMqConsumer
     {
-
-        private readonly IConnection _connection;
-        private readonly IModel _channel;
         private readonly IConfiguration _config;
+        private readonly ITwilioService _twilio;
 
-        public RabbitMqConsumer(IConfiguration config) 
+        public RabbitMqConsumer(IConfiguration config, ITwilioService twilio) 
         {
-            var factory = new ConnectionFactory
-            {
-                HostName = "localhost",
-                Port = 5672,
-                UserName = "guest",
-                Password = "guest",
-            };
-
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
+            _twilio = twilio;
             _config = config;
         }
 
         public void StartConsuming()
         {
-            _channel.QueueDeclare(queue: "sms", exclusive: false, durable: false, autoDelete: false, arguments: null);
-            var consumer = new EventingBasicConsumer(_channel);
+            var factory = new ConnectionFactory
+            {
+                HostName = _config["RabbitMq:hostName"],
+                Port = Int32.Parse(_config["RabbitMq:port"]),
+                UserName = _config["RabbitMq:userName"],
+                Password = _config["RabbitMq:password"],
+            };
+
+            var connection = factory.CreateConnection();
+            var channel = connection.CreateModel();
+
+            channel.QueueDeclare(queue: "sms", exclusive: false, durable: false, autoDelete: false, arguments: null);
+            var consumer = new EventingBasicConsumer(channel);
 
             consumer.Received += (model, ea) =>
             {
@@ -47,26 +48,10 @@ namespace NotificationApi.Services
                 var serializedMessage = Encoding.UTF8.GetString(body);
                 var message = JsonConvert.DeserializeObject<MessageDto>(serializedMessage);
 
-                SendSms(message);
+                _twilio.SendSms(message);
             };
 
-            _channel.BasicConsume(queue: "sms", autoAck: true, consumer: consumer);
-        }
-
-        public void SendSms(MessageDto messageDto)
-        {
-            string accountSid = _config["Twilio:accountSid"];
-            string authToken = _config["Twilio:authToken"];
-
-            var body = $"Hello! Your verification code is {messageDto.Code}";
-
-            TwilioClient.Init(accountSid, authToken);
-
-            var message = MessageResource.Create(
-                body: body,
-                from: new Twilio.Types.PhoneNumber(_config["Twilio:fromPhoneNumber"]),
-                to: new Twilio.Types.PhoneNumber(messageDto.PhoneNumber)
-            );
+            channel.BasicConsume(queue: "sms", autoAck: true, consumer: consumer);
         }
     }
 }

@@ -79,7 +79,6 @@ namespace HouseApi.Services
 
         public async Task UpdateHouseAsync(UpdateHouseDto updateHouseDto)
         {
-
             var house = await _houseRepository.GetHouseByIdAsync(updateHouseDto.Id);
 
             if (house == null)

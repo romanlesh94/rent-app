@@ -82,7 +82,6 @@ namespace PersonApi.Services
                 IsPhoneVerified = false
             };
 
-            //TODO: make a separate method
             Random random = new Random();
             int code = random.Next(1000, 10000);
 
@@ -176,8 +175,7 @@ namespace PersonApi.Services
             var image = new PersonImage
             {
                 Person = person,
-                ImageUrl = storageObject.MediaLink,
-                
+                ImageUrl = storageObject.MediaLink
             };
 
             await _personRepository.AddPersonImageAsync(image);

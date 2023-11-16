@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PersonApi.Models.Dto;
+using PersonApi.Repository;
 using RabbitMQ.Client;
 using System;
 using System.Text;
@@ -9,14 +11,21 @@ namespace PersonApi.Services
 {
     public class RabbitMqProducer : IRabbitMqProducer
     {
+        private readonly IConfiguration _config;
+
+        public RabbitMqProducer(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public async Task SendSmsMessage(MessageDto message)
         {
             var factory = new ConnectionFactory
             {
-                HostName = "localhost",
-                Port = 5672,
-                UserName = "guest",
-                Password = "guest",
+                HostName = _config["RabbitMq:hostName"],
+                Port = Int32.Parse(_config["RabbitMq:port"]),
+                UserName = _config["RabbitMq:userName"],
+                Password = _config["RabbitMq:password"],
             };
             
             using var connection = factory.CreateConnection();

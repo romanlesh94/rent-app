@@ -5,6 +5,6 @@ namespace NotificationApi.Services
 {
     public interface ITwilioService
     {
-        Task SendSmsAsync(SmsDto smsDto);
+        void SendSms(MessageDto messageDto);
     }
 }
