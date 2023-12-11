@@ -20,5 +20,8 @@ namespace PersonApi.Repository
         Task UpdatePhoneVerification(PhoneVerification phoneVerification);
         Task AddPersonImageAsync(PersonImage image);
         Task<PersonImage> GetPersonImageAsync(long personId);
+        Task SaveRefreshTokenAsync(RefreshToken token);
+        Task RemoveRefreshTokenAsync(long id);
+        Task<Person> GetPersonByRefreshTokenAsync(string refreshToken);
     }
 }

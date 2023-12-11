@@ -25,18 +25,21 @@ namespace PersonApi.Services
         private readonly IPersonRepository _personRepository;
         private readonly IConfiguration _config;
         private readonly IRabbitMqProducer _rabbitMqProducer;
+        private readonly ITokenService _tokenService;
 
 
-        public AccountService(IPersonRepository personRepository, IConfiguration config, IRabbitMqProducer rabbitMqProducer)
+        public AccountService(IPersonRepository personRepository, IConfiguration config, IRabbitMqProducer rabbitMqProducer,
+            ITokenService tokenService)
         {
             _personRepository = personRepository;
             _config = config;
             _rabbitMqProducer = rabbitMqProducer;
+            _tokenService = tokenService;
         }
 
         private const long FileMaxSize = 5242880;
 
-        public async Task<AuthToken> LogInAsync(LoginDto loginDto)
+        public async Task<TokensDto> LogInAsync(LoginDto loginDto)
         {
             var person = await _personRepository.GetPersonAsync(loginDto.Login);
 
@@ -52,13 +55,27 @@ namespace PersonApi.Services
 
             var token = GenerateToken(person.Login, person.Id);
 
-            AuthToken authToken = new AuthToken
+            var refreshToken = new RefreshToken
             {
-                Token = token,
-                Id = person.Id
+                Token = _tokenService.GenerateRefreshToken(),
+                Person = person,
+                CreatedDtm = DateTime.Now
             };
 
-            return authToken;
+            if(person.RefreshToken != null)
+            {
+                await _personRepository.RemoveRefreshTokenAsync(person.RefreshToken.Id);
+            }
+
+            await _personRepository.SaveRefreshTokenAsync(refreshToken);
+
+            TokensDto tokens = new TokensDto
+            {
+                AuthToken = token,
+                RefreshToken = refreshToken.Token
+            };
+
+            return tokens;
         }   
 
         public async Task<long> SignUpAsync(SignUpDto signUpDto)
@@ -71,6 +88,13 @@ namespace PersonApi.Services
             }
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(signUpDto.Password.Trim());
+
+            var refreshToken = new RefreshToken
+            {
+                Token = _tokenService.GenerateRefreshToken(),
+                Person = dbPerson,
+                CreatedDtm = DateTime.Now
+            };
 
             Person person = new Person
             {
@@ -94,6 +118,7 @@ namespace PersonApi.Services
             await _rabbitMqProducer.SendSmsMessage(message);
 
             await _personRepository.AddPersonAsync(person);
+            await _personRepository.SaveRefreshTokenAsync(refreshToken);
 
             var createdPerson = await _personRepository.GetPersonAsync(person.Login);
 
@@ -110,7 +135,7 @@ namespace PersonApi.Services
             return createdPerson.Id;
         }
 
-        public async Task<AuthToken> VerifyPhoneNumber(CheckSmsCodeDto checkSmsCodeDto)
+        public async Task<TokensDto> VerifyPhoneNumber(CheckSmsCodeDto checkSmsCodeDto)
         {
             var person = await _personRepository.GetPersonByIdAsync(checkSmsCodeDto.PersonId);
 
@@ -131,13 +156,13 @@ namespace PersonApi.Services
 
             var token = GenerateToken(person.Login, person.Id);
 
-            AuthToken authToken = new AuthToken
+            TokensDto tokens = new TokensDto
             {
-                Token = token,
-                Id = person.Id
+                AuthToken = token,
+                RefreshToken = person.RefreshToken.Token
             };
 
-            return authToken;
+            return tokens;
         }
 
         public async Task AddPersonImageAsync(long personId, IFormFile file)
@@ -243,6 +268,38 @@ namespace PersonApi.Services
 
 
             await _personRepository.UpdatePersonAsync(existingPerson);
+        }
+
+        public async Task<TokensDto> RefreshTokenVerificationAsync(string refreshToken)
+        {
+            var person = await _personRepository.GetPersonByRefreshTokenAsync(refreshToken);
+
+            if(person == null) { throw new InternalException("Invalid refresh token"); }
+
+            var refreshTokenExpiresDays = int.Parse(_config["RefreshTokenExpiresDays"]);
+
+            if (DateTime.Now - person.RefreshToken.CreatedDtm > new TimeSpan(refreshTokenExpiresDays, 0, 0, 0))
+            {
+                await _personRepository.RemoveRefreshTokenAsync(person.RefreshToken.Id);
+
+                throw new InternalException("Invalid refresh token.");
+            }
+
+            var newRefreshToken = new RefreshToken
+            {
+                Token = _tokenService.GenerateRefreshToken(),
+                CreatedDtm = DateTime.Now,
+                Person = person
+            };
+
+            await _personRepository.SaveRefreshTokenAsync(newRefreshToken);
+            var newAuthToken = GenerateToken(person.Login, person.Id);
+
+            return new TokensDto
+            {
+                AuthToken = newAuthToken,
+                RefreshToken = newRefreshToken.Token
+            };
         }
         
     }

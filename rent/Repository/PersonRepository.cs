@@ -79,6 +79,32 @@ namespace PersonApi.Repository
         {
             return await _context.PersonImages.FirstOrDefaultAsync(i => i.PersonId == personId);
         }
+
+        public async Task SaveRefreshTokenAsync(RefreshToken token)
+        {
+            await _context.RefreshTokens.AddAsync(token);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveRefreshTokenAsync(long id)
+        {
+            var token = await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (token != null)
+            {
+                _context.RefreshTokens.Remove(token);
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Person> GetPersonByRefreshTokenAsync(string refreshToken)
+        {
+            return await _context.People
+                .Include(x => x.RefreshToken)
+                .FirstOrDefaultAsync(x => x.RefreshToken.Token == refreshToken);
+        }
     }
 }
 

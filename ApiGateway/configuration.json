@@ -82,6 +82,19 @@
       "SwaggerKey": "person"
     },
     {
+      "DownstreamPathTemplate": "/api/Account/refreshTokenVerification",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/refreshTokenVerification",
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "person"
+    },
+    {
       "DownstreamPathTemplate": "/api/House/getHouses/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

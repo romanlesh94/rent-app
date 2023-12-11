@@ -9,6 +9,7 @@ namespace PersonApi.Extensions
         {
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IRabbitMqProducer, RabbitMqProducer>();
+            services.AddScoped<ITokenService, TokenService>();
         }
     }
 }

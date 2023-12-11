@@ -40,6 +40,7 @@ namespace PersonApi.Controllers
         public async Task<IActionResult> VerifyPhoneNumberAsync(CheckSmsCodeDto checkSmsCodeDto)
         {
             var result = await _service.VerifyPhoneNumber(checkSmsCodeDto);
+
             return Ok(result);
         }
 
@@ -63,7 +64,16 @@ namespace PersonApi.Controllers
         public async Task<IActionResult> AddPersonImageAsync(long personId, IFormFile file)
         {
             await _service.AddPersonImageAsync(personId, file);
+
             return Ok("The image has been added!");
+        }
+
+        [HttpGet("refreshTokenVerification")]
+        public async Task<IActionResult> RefreshTokenVerificationAsync(string refreshToken)
+        {
+            var result = await _service.RefreshTokenVerificationAsync(refreshToken);
+
+            return Ok(result);
         }
     }
 }

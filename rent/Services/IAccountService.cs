@@ -8,11 +8,12 @@ namespace PersonApi.Services
 {
     public interface IAccountService
     {
-        Task<AuthToken> LogInAsync(LoginDto loginDto);
+        Task<TokensDto> LogInAsync(LoginDto loginDto);
         Task<long> SignUpAsync(SignUpDto signUpDto);
         Task<GetPersonDto> GetPersonByIdAsync(long id);
         Task UpdatePersonAsync(UpdatePersonDto person);
-        Task<AuthToken> VerifyPhoneNumber(CheckSmsCodeDto checkSmsCodeDto);
+        Task<TokensDto> VerifyPhoneNumber(CheckSmsCodeDto checkSmsCodeDto);
         Task AddPersonImageAsync(long personId, IFormFile file);
+        Task<TokensDto> RefreshTokenVerificationAsync(string refreshToken);
     }
 }
