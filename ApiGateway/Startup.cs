@@ -38,6 +38,7 @@ namespace ApiGateway
                        ValidateIssuer = false,
                        ValidateLifetime = true,
                        RequireExpirationTime = true,
+                       ClockSkew = TimeSpan.Zero,
                        ValidateIssuerSigningKey = true,
                    };
                });

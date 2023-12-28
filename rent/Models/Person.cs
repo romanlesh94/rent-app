@@ -1,4 +1,5 @@
 ﻿using PersonApi.Models;
+using PersonApi.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace PersonApi.Entities
@@ -28,6 +29,9 @@ namespace PersonApi.Entities
         public string PhoneNumber { get; set; }
 
         public bool IsPhoneVerified { get; set; }
+
+        [Required]
+        public Roles Role { get; set; }
         public RefreshToken RefreshToken { get; set; }
     }
 }

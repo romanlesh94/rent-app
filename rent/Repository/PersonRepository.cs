@@ -31,12 +31,16 @@ namespace PersonApi.Repository
 
         public async Task<Person> GetPersonByIdAsync(long id)
         {
-            return await _context.People.FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.People
+                .Include(x => x.RefreshToken)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Person> GetPersonAsync(string login)
         {
-            return await _context.People.FirstOrDefaultAsync(p => p.Login.Trim().ToUpper() == login.Trim().ToUpper());
+            return await _context.People
+                .Include(x => x.RefreshToken)
+                .FirstOrDefaultAsync(p => p.Login.Trim().ToUpper() == login.Trim().ToUpper());
         }
 
         public async Task UpdatePersonAsync(Person person)
