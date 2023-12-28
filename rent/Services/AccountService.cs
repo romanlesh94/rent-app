@@ -9,6 +9,7 @@ using PersonApi.Entities;
 using PersonApi.Entities.Exceptions;
 using PersonApi.Models;
 using PersonApi.Models.Dto;
+using PersonApi.Models.Enums;
 using PersonApi.Models.Exceptions;
 using PersonApi.Repository;
 using System;
@@ -53,7 +54,7 @@ namespace PersonApi.Services
                 throw new InternalException("Wrong password!");
             }
 
-            var token = GenerateToken(person.Login, person.Id);
+            var token = GenerateToken(person.Login, person.Id, person.Role.ToString());
 
             var refreshToken = new RefreshToken
             {
@@ -71,8 +72,10 @@ namespace PersonApi.Services
 
             TokensDto tokens = new TokensDto
             {
+                PersonId = person.Id,
                 AuthToken = token,
-                RefreshToken = refreshToken.Token
+                RefreshToken = refreshToken.Token,
+                Role = person.Role
             };
 
             return tokens;
@@ -89,13 +92,6 @@ namespace PersonApi.Services
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(signUpDto.Password.Trim());
 
-            var refreshToken = new RefreshToken
-            {
-                Token = _tokenService.GenerateRefreshToken(),
-                Person = dbPerson,
-                CreatedDtm = DateTime.Now
-            };
-
             Person person = new Person
             {
                 Login = signUpDto.Login.Trim(),
@@ -103,7 +99,15 @@ namespace PersonApi.Services
                 Email = signUpDto.Email.Trim(),
                 Country = signUpDto.Country.Trim(),
                 PhoneNumber = signUpDto.PhoneNumber.Trim(),
-                IsPhoneVerified = false
+                IsPhoneVerified = false,
+                Role = Roles.User,
+            };
+
+            var refreshToken = new RefreshToken
+            {
+                Token = _tokenService.GenerateRefreshToken(),
+                Person = person,
+                CreatedDtm = DateTime.Now
             };
 
             Random random = new Random();
@@ -154,12 +158,14 @@ namespace PersonApi.Services
             await _personRepository.UpdatePhoneVerification(verification);
             await _personRepository.UpdatePersonAsync(person);
 
-            var token = GenerateToken(person.Login, person.Id);
+            var token = GenerateToken(person.Login, person.Id, person.Role.ToString());
 
             TokensDto tokens = new TokensDto
             {
+                PersonId = person.Id,
                 AuthToken = token,
-                RefreshToken = person.RefreshToken.Token
+                RefreshToken = person.RefreshToken.Token,
+                Role = person.Role
             };
 
             return tokens;
@@ -206,7 +212,7 @@ namespace PersonApi.Services
             await _personRepository.AddPersonImageAsync(image);
         }
 
-        public string GenerateToken(string login, long id)
+        public string GenerateToken(string login, long id, string role)
         {
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecretData:secretKey"]));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
@@ -215,6 +221,7 @@ namespace PersonApi.Services
             {
                 new("login", login),
                 new("id", id.ToString()),
+                new("scope", role)
             };
 
             var expires = DateTime.Now + new TimeSpan(0, 0, 0, int.Parse(_config["JwtExpiresSec"]));
@@ -293,12 +300,14 @@ namespace PersonApi.Services
             };
 
             await _personRepository.SaveRefreshTokenAsync(newRefreshToken);
-            var newAuthToken = GenerateToken(person.Login, person.Id);
+            var newAuthToken = GenerateToken(person.Login, person.Id, person.Role.ToString());
 
             return new TokensDto
             {
                 AuthToken = newAuthToken,
-                RefreshToken = newRefreshToken.Token
+                RefreshToken = newRefreshToken.Token,
+                PersonId = person.Id,
+                Role = person.Role
             };
         }
         

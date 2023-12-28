@@ -69,7 +69,7 @@ namespace PersonApi.Controllers
         }
 
         [HttpGet("refreshTokenVerification")]
-        public async Task<IActionResult> RefreshTokenVerificationAsync(string refreshToken)
+        public async Task<IActionResult> RefreshTokenVerificationAsync([FromHeader] string refreshToken)
         {
             var result = await _service.RefreshTokenVerificationAsync(refreshToken);
 

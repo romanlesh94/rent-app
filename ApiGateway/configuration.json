@@ -118,6 +118,12 @@
       ],
       "UpstreamPathTemplate": "/createHouse",
       "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+          "Admin"
+        ]
+      },
       "SwaggerKey": "house"
     },
     {
@@ -268,7 +274,10 @@
       "UpstreamPathTemplate": "/getHousesByOwner/{ownerId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+          "Admin"
+        ]
       },
       "SwaggerKey": "house"
     },
