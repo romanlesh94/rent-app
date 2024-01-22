@@ -109,6 +109,31 @@ namespace PersonApi.Repository
                 .Include(x => x.RefreshToken)
                 .FirstOrDefaultAsync(x => x.RefreshToken.Token == refreshToken);
         }
+
+        public async Task AddRoleChangeRequestAsync(RoleChangeRequest roleChangeRequest)
+        {
+            await _context.RoleChangeRequests.AddAsync(roleChangeRequest);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateRoleChangeRequestAsync(RoleChangeRequest roleChangeRequest)
+        {
+            _context.RoleChangeRequests.Update(roleChangeRequest);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<RoleChangeRequest> GetRoleChangeRequestAsync(long personId)
+        {
+            return await _context.RoleChangeRequests
+                .FirstOrDefaultAsync(r => r.PersonId == personId);
+        }
+
+        public async Task<List<RoleChangeRequest>> GetAllPendingRequestsAsync()
+        {
+            return await _context.RoleChangeRequests
+                .Where(r => r.IsApproved == false)
+                .ToListAsync();
+        }
     }
 }
 

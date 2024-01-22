@@ -13,6 +13,7 @@ using PersonApi.Models.Enums;
 using PersonApi.Models.Exceptions;
 using PersonApi.Repository;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Claims;
@@ -310,6 +311,43 @@ namespace PersonApi.Services
                 Role = person.Role
             };
         }
-        
+
+        public async Task SendRoleChangeRequest(long personId)
+        {
+            var existingRequest = await _personRepository.GetRoleChangeRequestAsync(personId);
+
+            if (existingRequest != null) { throw new InternalException("Your request has already been sent!"); }
+
+            var newRequest = new RoleChangeRequest
+            {
+                PersonId = personId,
+                CreatedDate = DateTime.Now,
+                IsApproved = false
+            };
+
+            await _personRepository.AddRoleChangeRequestAsync(newRequest);
+        }
+
+        public async Task<List<RoleChangeRequest>> GetAllPendingRequests()
+        {
+            return await _personRepository.GetAllPendingRequestsAsync();
+        }
+
+        public async Task ApproveRoleChangeRequest(long personId)
+        {
+            var request = await _personRepository.GetRoleChangeRequestAsync(personId);
+
+            if (request == null) { throw new NotFoundException("The request doesn't exist!"); }
+
+            var person = await _personRepository.GetPersonByIdAsync(personId);
+
+            if (person == null) { throw new NotFoundException("The request doesn't exist!"); }
+
+            request.IsApproved = true;
+            await _personRepository.UpdateRoleChangeRequestAsync(request);
+
+            person.Role = Roles.HouseOwner;
+            await _personRepository.UpdatePersonAsync(person);
+        }
     }
 }

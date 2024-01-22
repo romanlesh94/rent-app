@@ -2,6 +2,7 @@
 using PersonApi.Entities;
 using PersonApi.Models;
 using PersonApi.Models.Dto;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PersonApi.Services
@@ -15,5 +16,8 @@ namespace PersonApi.Services
         Task<TokensDto> VerifyPhoneNumber(CheckSmsCodeDto checkSmsCodeDto);
         Task AddPersonImageAsync(long personId, IFormFile file);
         Task<TokensDto> RefreshTokenVerificationAsync(string refreshToken);
+        Task SendRoleChangeRequest(long personId);
+        Task<List<RoleChangeRequest>> GetAllPendingRequests();
+        Task ApproveRoleChangeRequest(long personId);
     }
 }

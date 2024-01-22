@@ -23,5 +23,9 @@ namespace PersonApi.Repository
         Task SaveRefreshTokenAsync(RefreshToken token);
         Task RemoveRefreshTokenAsync(long id);
         Task<Person> GetPersonByRefreshTokenAsync(string refreshToken);
+        Task AddRoleChangeRequestAsync(RoleChangeRequest roleChangeRequest);
+        Task UpdateRoleChangeRequestAsync(RoleChangeRequest roleChangeRequest);
+        Task<RoleChangeRequest> GetRoleChangeRequestAsync(long personId);
+        Task<List<RoleChangeRequest>> GetAllPendingRequestsAsync();
     }
 }
