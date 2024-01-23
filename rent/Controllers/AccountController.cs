@@ -69,11 +69,35 @@ namespace PersonApi.Controllers
         }
 
         [HttpGet("refreshTokenVerification")]
-        public async Task<IActionResult> RefreshTokenVerificationAsync(string refreshToken)
+        public async Task<IActionResult> RefreshTokenVerificationAsync([FromHeader] string refreshToken)
         {
             var result = await _service.RefreshTokenVerificationAsync(refreshToken);
 
             return Ok(result);
+        }
+
+        [HttpPost("sendRoleChangeRequest/{personId}")]
+        public async Task<IActionResult> SendRoleChangeRequestAsync(long personId)
+        {
+            await _service.SendRoleChangeRequest(personId);
+
+            return Ok("The request has been sent!");
+        }
+
+        [HttpGet("getAllPendingRequests")]
+        public async Task<IActionResult> GetAllPendingRequests()
+        {
+            var result = await _service.GetAllPendingRequests();
+
+            return Ok(result);
+        }
+
+        [HttpPut("approveRoleChangeRequest/{personId}")]
+        public async Task<IActionResult> ApproveRoleChangeRequest(long personId)
+        {
+            await _service.ApproveRoleChangeRequest(personId);
+
+            return Ok("The request has been appoved!");
         }
     }
 }

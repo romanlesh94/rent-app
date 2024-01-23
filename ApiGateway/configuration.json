@@ -95,6 +95,57 @@
       "SwaggerKey": "person"
     },
     {
+      "DownstreamPathTemplate": "/api/Account/sendRoleChangeRequest/{personId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/sendRoleChangeRequest/{personId}",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "person"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Account/getAllPendingRequests",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/getAllPendingRequests",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+          "Admin"
+        ]
+      },
+      "SwaggerKey": "person"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Account/approveRoleChangeRequest/{personId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/approveRoleChangeRequest/{personId}",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+          "Admin"
+        ]
+      },
+      "SwaggerKey": "person"
+    },
+    {
       "DownstreamPathTemplate": "/api/House/getHouses/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -118,6 +169,13 @@
       ],
       "UpstreamPathTemplate": "/createHouse",
       "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+          "Admin",
+          "HouseOwner"
+        ]
+      },
       "SwaggerKey": "house"
     },
     {
@@ -131,6 +189,13 @@
       ],
       "UpstreamPathTemplate": "/updateHouse",
       "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+          "Admin",
+          "HouseOwner"
+        ]
+      },
       "SwaggerKey": "house"
     },
     {
@@ -144,6 +209,13 @@
       ],
       "UpstreamPathTemplate": "/deleteHouse/{houseId}",
       "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+          "Admin",
+          "HouseOwner"
+        ]
+      },
       "SwaggerKey": "house"
     },
     {
@@ -228,6 +300,13 @@
       ],
       "UpstreamPathTemplate": "/addHouseImage/{houseId}",
       "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+          "Admin",
+          "HouseOwner"
+        ]
+      },
       "SwaggerKey": "house"
     },
     {
@@ -268,7 +347,11 @@
       "UpstreamPathTemplate": "/getHousesByOwner/{ownerId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+          "Admin",
+          "HouseOwner"
+        ]
       },
       "SwaggerKey": "house"
     },
@@ -283,9 +366,6 @@
       ],
       "UpstreamPathTemplate": "/getBookingsByGuest/{guestId}/pageIndex/{pageIndex}/pageSize/{pageSize}",
       "UpstreamHttpMethod": [ "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      },
       "SwaggerKey": "house"
     },
     {

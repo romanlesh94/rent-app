@@ -19,6 +19,7 @@ namespace PersonApi.Repository
         public DbSet<PhoneVerification> PhoneVerificationTable { get; set; }
         public DbSet<PersonImage> PersonImages { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; } 
+        public DbSet<RoleChangeRequest> RoleChangeRequests { get; set; }
 
         public PersonDbContext() : base()
         {
